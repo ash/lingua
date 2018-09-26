@@ -29,7 +29,7 @@ grammar Lingua {
         \d+
     }
 
-    rule function-name {
+    token function-name {
         'say'
     }
 }
