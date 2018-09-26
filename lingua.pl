@@ -1,2 +1,9 @@
+grammar Lingua {
+    rule TOP {
+        ^ .* $
+    }
+}
+
 my $code = 'test.lng'.IO.slurp();
-say $code;
+my $result = Lingua.parse($code);
+say $result;
