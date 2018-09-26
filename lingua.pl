@@ -4,7 +4,33 @@ grammar Lingua {
     }
 
     rule statement {
-        <-[;]>*
+        | <variable-declaration>
+        | <assignment>
+        | <function-call>
+    }
+
+    rule variable-declaration {
+        'my' <variable-name>
+    }
+
+    rule assignment {
+        <variable-name> '=' <value>
+    }
+
+    rule function-call {
+        <function-name> <variable-name>
+    }
+
+    token variable-name {
+        \w+
+    }
+
+    token value {
+        \d+
+    }
+
+    rule function-name {
+        'say'
     }
 }
 
