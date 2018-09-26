@@ -1,6 +1,10 @@
 grammar Lingua {
     rule TOP {
-        ^ .* $
+        <statement>* %% ';'
+    }
+
+    rule statement {
+        <-[;]>*
     }
 }
 
