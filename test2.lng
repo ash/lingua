@@ -1,0 +1,15 @@
+my alpha;
+my beta;
+alpha = 100;
+beta = 200;
+
+say alpha;
+say beta;
+
+my gamma;
+
+gamma = 33;
+say gamma;
+
+gamma = 44;
+say gamma;
