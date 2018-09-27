@@ -4,12 +4,32 @@ grammar Calculator {
     }
 
     token number {
-        <[+-]>? [
-            | \d+
-            | \d* ['.' \d+]
-            | \d+ <[eE]> <[+-]>? \d+
-            | \d* ['.' \d+] <[eE]> <[+-]>? \d+
+        <sign>? [
+            | <integer>
+            | <floating-point>
+            | <integer> <exponent>
+            | <floating-point> <exponent>
         ]
+    }
+
+    token sign {
+        <[+-]>
+    }
+
+    token exp {
+        <[eE]>
+    }
+
+    token integer {
+        \d+
+    }
+
+    token floating-point {
+        \d* ['.' <integer>]
+    }
+
+    token exponent {
+        <exp> <sign>? <integer>
     }
 }
 
