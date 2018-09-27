@@ -12,21 +12,15 @@ grammar Lingua {
     }
 
     rule variable-declaration {
-        'my' <variable-name> {
-            %var{$<variable-name>} = 0;
-        }
+        'my' <variable-name>
     }
 
     rule assignment {
-        <variable-name> '=' <value> {
-            %var{~$<variable-name>} = +$<value>;
-        }
+        <variable-name> '=' <value>
     }
 
     rule function-call {
-        <function-name> <variable-name> {
-            say %var{$<variable-name>} if $<function-name> eq 'say';
-        }
+        <function-name> <variable-name>
     }
 
     token variable-name {
@@ -42,8 +36,21 @@ grammar Lingua {
     }
 }
 
-my $code = 'test.lng'.IO.slurp();
-my $result = Lingua.parse($code);
-#say $result;
+class LinguaActions {
+    method variable-declaration($/) {
+        %var{$<variable-name>} = 0;
+    }
 
-say %var;
+    method assignment($/) {
+        %var{~$<variable-name>} = +$<value>;
+    }
+
+    method function-call($/) {
+        say %var{$<variable-name>} if $<function-name> eq 'say';
+    }
+}
+
+my $code = 'test2.lng'.IO.slurp();
+my $result = Lingua.parse($code, :actions(LinguaActions));
+#say $result;
+#say %var;
