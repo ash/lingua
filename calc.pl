@@ -7,9 +7,7 @@ grammar Calculator {
         <sign>? [
             | <integer>
             | <floating-point>
-            | <integer> <exponent>
-            | <floating-point> <exponent>
-        ]
+        ] <exponent>?
     }
 
     token sign {
