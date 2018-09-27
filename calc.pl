@@ -4,7 +4,7 @@ grammar Calculator {
     }
 
     token number {
-        <[+-]>? \d+
+        <[+-]>? \d+ ['.' \d+]?
     }
 }
 
