@@ -10,6 +10,6 @@ grammar Calculator {
 
 my @cases = 7, 77, -84, '+7', 0;
 for @cases -> $expression {
-    say "Test $expression";
-    say Calculator.parse($expression);
+    my $test = Calculator.parse($expression);
+    say ($test ?? 'OK ' !! 'NOT OK ') ~ $expression;
 }
