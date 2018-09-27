@@ -1,3 +1,5 @@
+my %var;
+
 grammar Lingua {
     rule TOP {
         <statement>* %% ';'
@@ -10,15 +12,21 @@ grammar Lingua {
     }
 
     rule variable-declaration {
-        'my' <variable-name>
+        'my' <variable-name> {
+            %var{$<variable-name>} = 0;
+        }
     }
 
     rule assignment {
-        <variable-name> '=' <value>
+        <variable-name> '=' <value> {
+            %var{~$<variable-name>} = +$<value>;
+        }
     }
 
     rule function-call {
-        <function-name> <variable-name>
+        <function-name> <variable-name> {
+            say %var{$<variable-name>} if $<function-name> eq 'say';
+        }
     }
 
     token variable-name {
@@ -36,4 +44,6 @@ grammar Lingua {
 
 my $code = 'test.lng'.IO.slurp();
 my $result = Lingua.parse($code);
-say $result;
+#say $result;
+
+say %var;
