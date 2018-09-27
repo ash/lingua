@@ -4,11 +4,11 @@ grammar Calculator {
     }
 
     token number {
-        '-'? \d+
+        <[+-]>? \d+
     }
 }
 
-my @cases = 7, 77, -84;
+my @cases = 7, 77, -84, '+7', 0;
 for @cases -> $expression {
     say "Test $expression";
     say Calculator.parse($expression);
