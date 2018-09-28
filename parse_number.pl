@@ -1,9 +1,5 @@
 grammar Number {
-    rule TOP {
-        <number>
-    }
-
-    token number {
+    token TOP {
         <sign>? [
             | <integer>
             | <floating-point>
@@ -32,15 +28,18 @@ grammar Number {
 }
 
 class NumberActions {
-    has $.n = 0;
-    has $!sign = 1;
+    method TOP($/) {
+        my $n = $<integer>.made;
+        $n *= $<sign>.made if $<sign>;
+        $/.make($n);
+    }
 
     method integer($/) {
-        $!n = $!sign * +$/;
+        $/.make(+$/);
     }
 
     method sign($/) {
-        $!sign = -1 if ~$/ eq '-';
+        $/.make(~$/ eq '-' ?? -1 !! 1);
     }
 }
 
@@ -53,9 +52,10 @@ my @cases =
 for @cases -> $number {
     my $actions = NumberActions.new();
     my $test = Number.parse($number, :actions($actions));
+    #dd $test;
     
     if ($test) {
-        say "OK $number = " ~ $actions.n;
+        say "OK $number = " ~ $test.made;
     }
     else {
         say "NOT OK $number";
