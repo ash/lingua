@@ -31,15 +31,16 @@ grammar Number {
     }
 }
 
-my $n = 0;
-my $sign = 1;
 class NumberActions {
+    has $.n = 0;
+    has $!sign = 1;
+
     method integer($/) {
-        $n = $sign * +$/;
+        $!n = $!sign * +$/;
     }
 
     method sign($/) {
-        $sign = -1 if ~$/ eq '-';
+        $!sign = -1 if ~$/ eq '-';
     }
 }
 
@@ -50,10 +51,11 @@ my @cases =
     '3.14E2', '.5E-3',
     '', '-', '+';
 for @cases -> $number {
-    my $test = Number.parse($number, :actions(NumberActions));
+    my $actions = NumberActions.new();
+    my $test = Number.parse($number, :actions($actions));
     
     if ($test) {
-        say "OK $number = $n";
+        say "OK $number = " ~ $actions.n;
     }
     else {
         say "NOT OK $number";
