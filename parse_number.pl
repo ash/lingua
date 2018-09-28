@@ -1,4 +1,4 @@
-grammar Calculator {
+grammar Number {
     rule TOP {
         <number>
     }
@@ -38,6 +38,6 @@ my @cases =
     '3.14E2', '.5E-3',
     '', '-', '+';
 for @cases -> $expression {
-    my $test = Calculator.parse($expression);
+    my $test = Number.parse($expression);
     say ($test ?? 'OK ' !! 'NOT OK ') ~ $expression;
 }
