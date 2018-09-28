@@ -19,7 +19,7 @@ grammar Number {
     }
 
     token floating-point {
-        \d* ['.' <integer>]
+        $<int>=<integer>? ['.' $<frac>=<integer>]
     }
 
     token exponent {
@@ -29,7 +29,8 @@ grammar Number {
 
 class NumberActions {
     method TOP($/) {
-        my $n = $<integer>.made;
+        say $<n>;
+        my $n = $<integer> ?? $<integer>.made !! $<floating-point>.made;
         $n *= $<sign>.made if $<sign>;
         $n *= 10 ** $<exponent>.made if $<exponent>;
         $/.make($n);
@@ -37,6 +38,14 @@ class NumberActions {
 
     method integer($/) {
         $/.make(+$/);
+    }
+
+    method floating-point($/) {
+        my $int = $<int> // 0;
+        my $frac = $<frac>;
+        my $n = $int + $frac / 10 ** $frac.chars;
+
+        $/.make($n);
     }
 
     method sign($/) {
