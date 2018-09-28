@@ -31,6 +31,7 @@ class NumberActions {
     method TOP($/) {
         my $n = $<integer>.made;
         $n *= $<sign>.made if $<sign>;
+        $n *= 10 ** $<exponent>.made if $<exponent>;
         $/.make($n);
     }
 
@@ -41,6 +42,12 @@ class NumberActions {
     method sign($/) {
         $/.make(~$/ eq '-' ?? -1 !! 1);
     }
+
+    method exponent($/) {
+        my $e = $<integer>;
+        $e *= -1 if $<sign> && ~$<sign> eq '-';
+        $/.make($e);
+    }
 }
 
 my @cases =
@@ -49,6 +56,7 @@ my @cases =
     '3E4', '-33E55', '3E-3', '-1E-2',
     '3.14E2', '.5E-3',
     '', '-', '+';
+
 for @cases -> $number {
     my $actions = NumberActions.new();
     my $test = Number.parse($number, :actions($actions));
