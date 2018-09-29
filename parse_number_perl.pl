@@ -29,28 +29,7 @@ grammar Number {
 
 class NumberActions {
     method TOP($/) {
-        my $n = $<integer> ?? $<integer>.made !! $<floating-point>.made;
-        $n *= $<sign>.made if $<sign>;
-        $n *= 10 ** $<exponent>.made if $<exponent>;
-        $/.make($n);
-    }
-
-    method integer($/) {
         $/.make(+$/);
-    }
-
-    method floating-point($/) {
-        $/.make(+$/);
-    }
-
-    method sign($/) {
-        $/.make(~$/ eq '-' ?? -1 !! 1);
-    }
-
-    method exponent($/) {
-        my $e = $<integer>;
-        $e *= -1 if $<sign> && ~$<sign> eq '-';
-        $/.make($e);
     }
 }
 
