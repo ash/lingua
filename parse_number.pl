@@ -79,7 +79,7 @@ for @cases -> $number {
     #dd $test;
     
     if ($test) {
-        say "OK $number = " ~ $test.made;
+        say "OK $number = " ~ $test.made ~ ' (' ~ $test.made.^name ~ ')';
     }
     else {
         say "NOT OK $number";
