@@ -40,18 +40,7 @@ class NumberActions {
     }
 
     method floating-point($/) {
-        my $int = 0;
-        my $frac = 0;
-
-        if $<integer>.elems == 2 {
-            ($int, $frac) = $<integer>;
-        }
-        else {
-            $frac = $<integer>[0];
-        }
-
-        my $n = +"$int.$frac";
-        $/.make($n);
+        $/.make(+$/);
     }
 
     method sign($/) {
