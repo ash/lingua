@@ -13,21 +13,22 @@ grammar Calculator {
 }
 
 class CalculatorActions {
-    multi sub operation('+', @values) {
-        [+] @values
+    multi sub operation('+', $a is rw, $b) {
+        $a += $b
     }
 
-    multi sub operation('-', @values) {
-        [-] @values
+    multi sub operation('-', $a is rw, $b) {
+        $a -= $b
     }
 
     method TOP($/) {
-        if $<op> {
-            $/.make(operation(~$<op>[0], $<number>.map: *.made));
-        }
-        else {
-            $/.make($<number>[0].made);
-        }
+        my @numbers = $<number>.map: *.made;
+        my $make = @numbers.shift;
+
+        operation(~$<op>.shift, $make, @numbers.shift)
+            while @numbers.elems;
+
+        $/.make($make);
     }
 
     method number($/) {
@@ -38,7 +39,10 @@ class CalculatorActions {
 my @cases =
     '3 + 4', '3 - 4',
     '7',
-    '1 + 2 + 3', '1 + 3 + 5 + 7';
+    '1 + 2 + 3', '1 + 3 + 5 + 7',
+    '7 + 8 - 3', '14 - 4', '14 - 4 - 3',
+    '100 - 200 + 300 + 1 - 2';
+
 for @cases -> $test {
     say "$test = " ~ Calculator.parse($test, :actions(CalculatorActions)).made;
 }
