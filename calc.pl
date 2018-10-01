@@ -1,6 +1,15 @@
 grammar Calculator {
     rule TOP {
+        | <addition>
+        | <subtraction>
+    }
+
+    rule addition {
         <number> '+' <number>
+    }
+
+    rule subtraction {
+        <number> '-' <number>
     }
 
     token number {
@@ -10,7 +19,15 @@ grammar Calculator {
 
 class CalculatorActions {
     method TOP($/) {
+        $/.make($<addition> ?? $<addition>.made !! $<subtraction>.made);
+    }
+
+    method addition($/) {
         $/.make($<number>[0].made + $<number>[1].made);
+    }
+
+    method subtraction($/) {
+        $/.make($<number>[0].made - $<number>[1].made);
     }
 
     method number($/) {
@@ -18,4 +35,7 @@ class CalculatorActions {
     }
 }
 
-Calculator.parse('3 + 4', :actions(CalculatorActions)).made.say;
+my @cases = '3 + 4', '3 - 4';
+for @cases -> $test {
+    say "$test = " ~ Calculator.parse($test, :actions(CalculatorActions)).made;
+}
