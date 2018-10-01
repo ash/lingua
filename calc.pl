@@ -1,6 +1,6 @@
 grammar Calculator {
     rule TOP {
-        <number> <op> <number>
+        <number> [<op> <number> <ws>]*
     }
 
     token op {
@@ -13,16 +13,21 @@ grammar Calculator {
 }
 
 class CalculatorActions {
-    multi sub operation('+', $a, $b) {
-        $a + $b
+    multi sub operation('+', @values) {
+        [+] @values
     }
 
-    multi sub operation('-', $a, $b) {
-        $a - $b
+    multi sub operation('-', @values) {
+        [-] @values
     }
 
     method TOP($/) {
-        $/.make(operation(~$<op>, $<number>[0].made, $<number>[1].made));
+        if $<op> {
+            $/.make(operation(~$<op>[0], $<number>.map: *.made));
+        }
+        else {
+            $/.make($<number>[0].made);
+        }
     }
 
     method number($/) {
@@ -30,7 +35,10 @@ class CalculatorActions {
     }
 }
 
-my @cases = '3 + 4', '3 - 4';
+my @cases =
+    '3 + 4', '3 - 4',
+    '7',
+    '1 + 2 + 3', '1 + 3 + 5 + 7';
 for @cases -> $test {
     say "$test = " ~ Calculator.parse($test, :actions(CalculatorActions)).made;
 }
