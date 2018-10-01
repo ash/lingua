@@ -1,15 +1,10 @@
 grammar Calculator {
     rule TOP {
-        | <addition>
-        | <subtraction>
+        <number> <op> <number>
     }
 
-    rule addition {
-        <number> '+' <number>
-    }
-
-    rule subtraction {
-        <number> '-' <number>
+    token op {
+        '+' | '-'
     }
 
     token number {
@@ -19,15 +14,12 @@ grammar Calculator {
 
 class CalculatorActions {
     method TOP($/) {
-        $/.make($<addition> ?? $<addition>.made !! $<subtraction>.made);
-    }
-
-    method addition($/) {
-        $/.make($<number>[0].made + $<number>[1].made);
-    }
-
-    method subtraction($/) {
-        $/.make($<number>[0].made - $<number>[1].made);
+        if $<op> eq '+' {
+            $/.make($<number>[0].made + $<number>[1].made);
+        }
+        else {
+            $/.make($<number>[0].made - $<number>[1].made);
+        }
     }
 
     method number($/) {
