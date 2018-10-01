@@ -13,20 +13,16 @@ grammar Calculator {
 }
 
 class CalculatorActions {
-    my %operation =
-        '+' => &addition,
-        '-' => &subtraction;
-
-    sub addition($a, $b) {
+    multi sub operation('+', $a, $b) {
         $a + $b
     }
 
-    sub subtraction($a, $b) {
+    multi sub operation('-', $a, $b) {
         $a - $b
     }
 
     method TOP($/) {
-        $/.make(%operation{~$<op>}($<number>[0].made, $<number>[1].made));
+        $/.make(operation(~$<op>, $<number>[0].made, $<number>[1].made));
     }
 
     method number($/) {
