@@ -13,13 +13,20 @@ grammar Calculator {
 }
 
 class CalculatorActions {
+    my %operation =
+        '+' => &addition,
+        '-' => &subtraction;
+
+    sub addition($a, $b) {
+        $a + $b
+    }
+
+    sub subtraction($a, $b) {
+        $a - $b
+    }
+
     method TOP($/) {
-        if $<op> eq '+' {
-            $/.make($<number>[0].made + $<number>[1].made);
-        }
-        else {
-            $/.make($<number>[0].made - $<number>[1].made);
-        }
+        $/.make(%operation{~$<op>}($<number>[0].made, $<number>[1].made));
     }
 
     method number($/) {
