@@ -4,7 +4,7 @@ grammar Calculator {
     }
 
     token op {
-        '+' | '-'
+        '+' | '-' | '*' | '/'
     }
 
     token number {
@@ -19,6 +19,14 @@ class CalculatorActions {
 
     multi sub operation('-', $a is rw, $b) {
         $a -= $b
+    }
+
+    multi sub operation('*', $a is rw, $b) {
+        $a *= $b
+    }
+
+    multi sub operation('/', $a is rw, $b) {
+        $a /= $b
     }
 
     method TOP($/) {
@@ -37,11 +45,14 @@ class CalculatorActions {
 }
 
 my @cases =
-    '3 + 4', '3 - 4',
-    '7',
-    '1 + 2 + 3', '1 + 3 + 5 + 7',
-    '7 + 8 - 3', '14 - 4', '14 - 4 - 3',
-    '100 - 200 + 300 + 1 - 2';
+    # '3 + 4', '3 - 4',
+    # '7',
+    # '1 + 2 + 3', '1 + 3 + 5 + 7',
+    # '7 + 8 - 3', '14 - 4', '14 - 4 - 3',
+    # '100 - 200 + 300 + 1 - 2'
+    '3 * 4', '100 / 25',
+    '1 + 2 * 3'
+    ;
 
 for @cases -> $test {
     say "$test = " ~ Calculator.parse($test, :actions(CalculatorActions)).made;
