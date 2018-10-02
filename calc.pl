@@ -1,10 +1,22 @@
 grammar Calculator {
     rule TOP {
-        <number> [<op> <number> <ws>]*
+        <term>* %% <op1>
     }
 
-    token op {
-        '+' | '-' | '*' | '/'
+    rule term {
+        <factor>* %% <op2>
+    }
+
+    token op1 {
+        '+' | '-'
+    }
+
+    token op2 {
+        '*' | '/'
+    }
+
+    rule factor {
+        <number>
     }
 
     token number {
@@ -30,13 +42,24 @@ class CalculatorActions {
     }
 
     method TOP($/) {
-        my @numbers = $<number>.map: *.made;
-        my $make = @numbers.shift;
+        $/.make(process($<term>, $<op1>));
+    }
 
-        operation(~$<op>.shift, $make, @numbers.shift)
-            while @numbers.elems;
+    method term($/) {
+        $/.make(process($<factor>, $<op2>));
+    }
 
-        $/.make($make);
+    sub process(@data, @ops) {
+        my @nums = @data.map: *.made;
+        my $result = @nums.shift;
+
+        operation(~@ops.shift, $result, @nums.shift) while @nums;
+
+        return $result;
+    }
+
+    method factor($/) {
+        $/.make($<number>.made);
     }
 
     method number($/) {
@@ -45,13 +68,14 @@ class CalculatorActions {
 }
 
 my @cases =
-    # '3 + 4', '3 - 4',
-    # '7',
-    # '1 + 2 + 3', '1 + 3 + 5 + 7',
-    # '7 + 8 - 3', '14 - 4', '14 - 4 - 3',
-    # '100 - 200 + 300 + 1 - 2'
+    '3 + 4', '3 - 4',
+    '7',
+    '1 + 2 + 3', '1 + 3 + 5 + 7',
+    '7 + 8 - 3', '14 - 4', '14 - 4 - 3',
+    '100 - 200 + 300 + 1 - 2',
     '3 * 4', '100 / 25',
-    '1 + 2 * 3'
+    '1 + 2 * 3',
+    '1 + 2 - 3 * 4 / 5'
     ;
 
 for @cases -> $test {
