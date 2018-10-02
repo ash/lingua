@@ -1,3 +1,5 @@
+use Test;
+
 grammar Calculator {
     rule TOP {
         <term>* %% <op1>
@@ -79,5 +81,7 @@ my @cases =
     ;
 
 for @cases -> $test {
-    say "$test = " ~ Calculator.parse($test, :actions(CalculatorActions)).made;
+    my $result = Calculator.parse($test, :actions(CalculatorActions)).made;
+    my $correct = EVAL($result);
+    is($result, $correct, "$test = $correct");
 }
