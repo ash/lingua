@@ -9,6 +9,10 @@ grammar Calculator {
         <factor>* %% <op2>
     }
 
+    rule factor {
+        <number>* %% <op3>
+    }
+
     token op1 {
         '+' | '-'
     }
@@ -17,13 +21,16 @@ grammar Calculator {
         '*' | '/'
     }
 
-    rule factor {
-        <number>
+    token op3 {
+        '**'
     }
 
-    token number {
+    rule number {
         \d+
     }
+    # token number {
+    #     <ws> \d+ <ws>
+    # }
 }
 
 class CalculatorActions {
@@ -43,12 +50,20 @@ class CalculatorActions {
         $a /= $b
     }
 
+    multi sub operation('**', $a is rw, $b) {
+        $a **= $b
+    }
+
     method TOP($/) {
         $/.make(process($<term>, $<op1>));
     }
 
     method term($/) {
         $/.make(process($<factor>, $<op2>));
+    }
+
+    method factor($/) {
+        $/.make(process($<number>, $<op3>));
     }
 
     sub process(@data, @ops) {
@@ -58,10 +73,6 @@ class CalculatorActions {
         operation(~@ops.shift, $result, @nums.shift) while @nums;
 
         return $result;
-    }
-
-    method factor($/) {
-        $/.make($<number>.made);
     }
 
     method number($/) {
@@ -77,7 +88,11 @@ my @cases =
     '100 - 200 + 300 + 1 - 2',
     '3 * 4', '100 / 25',
     '1 + 2 * 3',
-    '1 + 2 - 3 * 4 / 5'
+    '1 + 2 - 3 * 4 / 5',
+    '2 ** 3',
+    '2 + 3 ** 4',
+    '1 + 2 * 3 ** 4 - 5 * 6',
+    '2 ** 3 ** 4'
     ;
 
 for @cases -> $test {
