@@ -1,0 +1,20 @@
+# Declaring variables
+my alpha;
+my beta;
+
+alpha = 100; # Assign a value
+beta = 200;
+
+# Displaying
+say alpha;
+say beta;
+
+# Another variable
+my gamma;
+
+gamma = 33;
+say gamma;
+
+gamma = 44;
+say gamma;
+

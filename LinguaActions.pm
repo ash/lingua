@@ -1,6 +1,10 @@
 my %var;
 
 class LinguaActions {
+    # method comment($/) {
+    #     print ~$/;
+    # }
+
     method variable-declaration($/) {
         %var{$<variable-name>} = 0;
     }

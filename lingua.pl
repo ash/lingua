@@ -1,5 +1,5 @@
 use Lingua;
 use LinguaActions;
 
-my $code = 'test2.lng'.IO.slurp();
+my $code = 'test3.lng'.IO.slurp();
 Lingua.parse($code, :actions(LinguaActions));

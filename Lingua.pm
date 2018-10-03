@@ -1,12 +1,19 @@
 grammar Lingua {
     rule TOP {
-        <statement>* %% ';'
+        [
+            | <comment>
+            | <statement> ';'
+        ]*
     }
 
     rule statement {
         | <variable-declaration>
         | <assignment>
         | <function-call>
+    }
+
+    rule comment {
+        '#' \N*
     }
 
     rule variable-declaration {
