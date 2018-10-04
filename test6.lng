@@ -1,0 +1,7 @@
+my pi;
+pi = 22/7 - 0.001265; # very rough approximation
+say pi;
+
+my x;
+x = 2 * (3 + 4);
+say x; # prints 14

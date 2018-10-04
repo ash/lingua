@@ -22,7 +22,7 @@ grammar Lingua {
     }
 
     rule assignment {
-        <variable-name> '=' <value>
+        <variable-name> '=' <expression>
     }
 
     rule function-call {
@@ -44,8 +44,38 @@ grammar Lingua {
         ]
     }
 
+    # Calculator expressions
+    rule expression {
+        <term>* %% <op1>
+    }
+
+    rule term {
+        <factor>* %% <op2>
+    }
+
+    rule factor {
+        <value>* %% <op3>
+    }
+
+    token op1 {
+        '+' | '-'
+    }
+
+    token op2 {
+        '*' | '/'
+    }
+
+    token op3 {
+        '**'
+    }
+
+    rule value {
+        | <number>
+        | '(' <expression> ')'
+    }
+
     # Numbers
-    token value {
+    token number {
         <sign>? [
             | <integer>
             | <floating-point>
@@ -71,5 +101,4 @@ grammar Lingua {
     token exponent {
         <exp> <sign>? <integer>
     }
-
 }
