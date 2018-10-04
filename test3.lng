@@ -5,7 +5,7 @@ my beta;
 alpha = 100; # Assign a value
 beta = 200;
 
-# Displaying
+/* Displaying */
 say alpha;
 say beta;
 

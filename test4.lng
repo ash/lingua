@@ -1,5 +1,5 @@
 my /* inline comment */ a;
-# One-line comment
+# one-line comment
 a = 10;
 
 /* multi-line
