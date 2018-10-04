@@ -1,4 +1,5 @@
 grammar Lingua {
+    # Language
     rule TOP {
         [
             | <comment>
@@ -32,10 +33,6 @@ grammar Lingua {
         \w+
     }
 
-    token value {
-        \d+
-    }
-
     token function-name {
         'say'
     }
@@ -46,4 +43,33 @@ grammar Lingua {
             | \s* '/*' \s* .*? \s* '*/' \s*
         ]
     }
+
+    # Numbers
+    token value {
+        <sign>? [
+            | <integer>
+            | <floating-point>
+        ] <exponent>?
+    }
+
+    token sign {
+        <[+-]>
+    }
+
+    token exp {
+        <[eE]>
+    }
+
+    token integer {
+        \d+
+    }
+
+    token floating-point {
+        <integer>? ['.' <integer>]
+    }
+
+    token exponent {
+        <exp> <sign>? <integer>
+    }
+
 }

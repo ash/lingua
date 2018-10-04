@@ -1,0 +1,11 @@
+my alpha;
+my beta;
+my gamma;
+
+alpha = 3.14;
+beta = 42;
+gamma = -4.5E-2;
+
+say alpha;
+say beta;
+say gamma;

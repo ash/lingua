@@ -1,10 +1,7 @@
 my %var;
 
 class LinguaActions {
-    # method comment($/) {
-    #     print ~$/;
-    # }
-
+    # Language
     method variable-declaration($/) {
         %var{$<variable-name>} = 0;
     }
@@ -15,5 +12,10 @@ class LinguaActions {
 
     method function-call($/) {
         say %var{$<variable-name>} if $<function-name> eq 'say';
+    }
+
+    # Numbers
+    method value($/) {
+        $/.make(+$/);
     }
 }
