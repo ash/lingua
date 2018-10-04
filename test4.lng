@@ -1,3 +1,7 @@
-my a;
+my /* inline comment */ a;
+# One-line comment
 a = 10;
+
+/* multi-line
+   comment */
 say a;

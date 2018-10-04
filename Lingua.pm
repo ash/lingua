@@ -39,4 +39,11 @@ grammar Lingua {
     token function-name {
         'say'
     }
+
+    regex ws {
+        <!ww> [
+            | \s*
+            | \s* '/*' \s* .*? \s* '*/' \s*
+        ]
+    }
 }
