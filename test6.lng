@@ -5,3 +5,23 @@ say pi;
 my x;
 x = 2 * (3 + 4);
 say x; # prints 14
+
+my y;
+y = x;
+say y;
+
+my a;
+my b;
+
+a = 10;
+b = a * 3;
+
+say b; # 30
+
+
+my r;
+r = 6371; # km
+
+my d;
+d = 2 * pi * r;
+say d;

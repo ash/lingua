@@ -57,7 +57,15 @@ class LinguaActions {
     }
 
     method value($/) {
-        $/.make($<number> ?? $<number>.made !! $<expression>.made);
+        if $<number> {
+            $/.make($<number>.made);
+        }
+        elsif $<variable-name> {
+            $/.make(%var{$<variable-name>});
+        }
+        else {
+            $/.make($<expression>.made);
+        }
     }
 
     # Numbers

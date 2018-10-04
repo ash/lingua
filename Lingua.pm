@@ -71,6 +71,7 @@ grammar Lingua {
 
     rule value {
         | <number>
+        | <variable-name>
         | '(' <expression> ')'
     }
 
