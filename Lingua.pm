@@ -1,8 +1,10 @@
-grammar Lingua {
+use CommentableLanguage;
+
+grammar Lingua is CommentableLanguage {
     # Language
     rule TOP {
         [
-            | <comment>
+            | <one-line-comment>
             | <statement> ';'
         ]*
     }
@@ -13,12 +15,8 @@ grammar Lingua {
         | <function-call>
     }
 
-    rule comment {
-        '#' \N*
-    }
-
     rule variable-declaration {
-        'my' <variable-name>
+        'my' <variable-name> [ '=' <expression> ]?
     }
 
     rule assignment {
@@ -35,13 +33,6 @@ grammar Lingua {
 
     token function-name {
         'say'
-    }
-
-    regex ws {
-        <!ww> [
-            | \s*
-            | \s* '/*' \s* .*? \s* '*/' \s*
-        ]
     }
 
     # Calculator expressions
