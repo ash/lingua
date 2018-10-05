@@ -1,7 +1,6 @@
 my %var;
 
 class LinguaActions {
-    # Language
     method variable-declaration($/) {
         %var{$<variable-name>} = $<expression> ?? $<expression>.made !! 0;
     }
@@ -14,7 +13,6 @@ class LinguaActions {
         say %var{$<variable-name>} if $<function-name> eq 'say';
     }
 
-    # Calculator expressions
     multi sub operation('+', $a is rw, $b) {
         $a += $b
     }
@@ -63,7 +61,6 @@ class LinguaActions {
         return $result;
     }
 
-    # Numbers
     method number($/) {
         $/.make(+$/);
     }

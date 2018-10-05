@@ -2,7 +2,6 @@ use CommentableLanguage;
 use Number;
 
 grammar Lingua is CommentableLanguage does Number {
-    # Language
     rule TOP {
         [
             | <one-line-comment>
