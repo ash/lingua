@@ -3,7 +3,7 @@ my %var;
 class LinguaActions {
     # Language
     method variable-declaration($/) {
-        %var{$<variable-name>} = 0;
+        %var{$<variable-name>} = $<expression> ?? $<expression>.made !! 0;
     }
 
     method assignment($/) {
