@@ -36,19 +36,6 @@ grammar Lingua is CommentableLanguage does Number {
         'say'
     }
 
-    # Calculator expressions
-    rule expression {
-        <term>+ %% <op(1)>
-    }
-
-    rule term {
-        <factor>+ %% <op(2)>
-    }
-
-    rule factor {
-        <value>+ %% <op(3)>
-    }
-
     multi token op(1) {
         '+' | '-'
     }
@@ -61,7 +48,23 @@ grammar Lingua is CommentableLanguage does Number {
         '**'
     }
 
-    rule value {
+    rule expression {
+        <expr(1)>
+    }
+
+    multi rule expr(1) {
+        <expr(2)>+ %% <op(1)>
+    }
+
+    multi rule expr(2) {
+        <expr(3)>+ %% <op(2)>
+    }
+
+    multi rule expr(3) {
+        <expr(4)>+ %% <op(3)>
+    }
+
+    multi rule expr(4) {
         | <number>
         | <variable-name>
         | '(' <expression> ')'

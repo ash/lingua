@@ -36,15 +36,22 @@ class LinguaActions {
     }
 
     method expression($/) {
-        $/.make(process($<term>, $<op>));
+        $/.make($<expr>.made);
     }
 
-    method term($/) {
-        $/.make(process($<factor>, $<op>));
-    }
-
-    method factor($/) {
-        $/.make(process($<value>, $<op>));
+    method expr($/) {
+        if $<number> {
+            $/.make($<number>.made);
+        }
+        elsif $<variable-name> {
+            $/.make(%var{$<variable-name>});
+        }
+        elsif $<expr> {
+            $/.make(process($<expr>, $<op>));
+        }
+        else {
+            $/.make($<expression>.made);
+        }
     }
 
     sub process(@data, @ops) {
@@ -54,18 +61,6 @@ class LinguaActions {
         operation(~@ops.shift, $result, @nums.shift) while @nums;
 
         return $result;
-    }
-
-    method value($/) {
-        if $<number> {
-            $/.make($<number>.made);
-        }
-        elsif $<variable-name> {
-            $/.make(%var{$<variable-name>});
-        }
-        else {
-            $/.make($<expression>.made);
-        }
     }
 
     # Numbers
