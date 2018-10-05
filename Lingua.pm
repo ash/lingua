@@ -52,16 +52,8 @@ grammar Lingua is CommentableLanguage does Number {
         <expr(1)>
     }
 
-    multi rule expr(1) {
-        <expr(2)>+ %% <op(1)>
-    }
-
-    multi rule expr(2) {
-        <expr(3)>+ %% <op(2)>
-    }
-
-    multi rule expr(3) {
-        <expr(4)>+ %% <op(3)>
+    multi rule expr($n) {
+        <expr($n + 1)>+ %% <op($n)>
     }
 
     multi rule expr(4) {
