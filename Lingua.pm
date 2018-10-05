@@ -1,6 +1,7 @@
 use CommentableLanguage;
+use Number;
 
-grammar Lingua is CommentableLanguage {
+grammar Lingua is CommentableLanguage does Number {
     # Language
     rule TOP {
         [
@@ -64,33 +65,5 @@ grammar Lingua is CommentableLanguage {
         | <number>
         | <variable-name>
         | '(' <expression> ')'
-    }
-
-    # Numbers
-    token number {
-        <sign>? [
-            | <integer>
-            | <floating-point>
-        ] <exponent>?
-    }
-
-    token sign {
-        <[+-]>
-    }
-
-    token exp {
-        <[eE]>
-    }
-
-    token integer {
-        \d+
-    }
-
-    token floating-point {
-        <integer>? ['.' <integer>]
-    }
-
-    token exponent {
-        <exp> <sign>? <integer>
     }
 }
