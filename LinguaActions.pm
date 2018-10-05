@@ -36,15 +36,15 @@ class LinguaActions {
     }
 
     method expression($/) {
-        $/.make(process($<term>, $<op1>));
+        $/.make(process($<term>, $<op>));
     }
 
     method term($/) {
-        $/.make(process($<factor>, $<op2>));
+        $/.make(process($<factor>, $<op>));
     }
 
     method factor($/) {
-        $/.make(process($<value>, $<op3>));
+        $/.make(process($<value>, $<op>));
     }
 
     sub process(@data, @ops) {

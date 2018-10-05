@@ -1,0 +1,5 @@
+my pi = 3.1415926;
+my r = 6371; # km
+
+my d = 2 * pi * r;
+say d;

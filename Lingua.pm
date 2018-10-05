@@ -38,26 +38,26 @@ grammar Lingua is CommentableLanguage does Number {
 
     # Calculator expressions
     rule expression {
-        <term>* %% <op1>
+        <term>+ %% <op(1)>
     }
 
     rule term {
-        <factor>* %% <op2>
+        <factor>+ %% <op(2)>
     }
 
     rule factor {
-        <value>* %% <op3>
+        <value>+ %% <op(3)>
     }
 
-    token op1 {
+    multi token op(1) {
         '+' | '-'
     }
 
-    token op2 {
+    multi token op(2) {
         '*' | '/'
     }
 
-    token op3 {
+    multi token op(3) {
         '**'
     }
 
