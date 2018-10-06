@@ -1,0 +1,7 @@
+my name = "John";
+say "Hello, $name!";
+
+say "5\$";
+
+my another_name = "Carla";
+say "Hello, $name and $another_name!";

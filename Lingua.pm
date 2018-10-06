@@ -66,11 +66,13 @@ grammar Lingua is CommentableLanguage does Number {
         | '(' <expression> ')'
     }
 
-    rule string {
+    token string {
         '"' ( [
-              | <-["\\]>+
+              | <-["\\$]>+
               | '\\"'
               | '\\\\'
+              | '\\$'
+              | '$' <variable-name>
               ]* )
         '"'
     }
