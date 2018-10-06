@@ -1,0 +1,7 @@
+my str = "Hello, World";
+say str;
+
+say "Hello indeed";
+
+my name = "John";
+say "Hello, $name";

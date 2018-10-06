@@ -57,7 +57,12 @@ grammar Lingua is CommentableLanguage does Number {
 
     multi rule expr(4) {
         | <number>
+        | <string>
         | <variable-name>
         | '(' <expression> ')'
+    }
+
+    rule string {
+        '"' .*? '"'
     }
 }
