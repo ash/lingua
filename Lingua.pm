@@ -28,7 +28,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     token variable-name {
-        \w+
+        [<:alpha> | '_'] \w*
     }
 
     token function-name {
