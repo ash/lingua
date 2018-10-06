@@ -10,7 +10,8 @@ class LinguaActions {
     }
 
     method function-call($/) {
-        say %!var{$<variable-name>} if $<function-name> eq 'say';
+        say $<expression>.made;
+        #say %!var{$<variable-name>} if $<function-name> eq 'say';
     }
 
     multi sub operation('+', $a is rw, $b) {

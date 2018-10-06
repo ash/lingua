@@ -24,7 +24,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule function-call {
-        <function-name> <variable-name>
+        <function-name> <expression>
     }
 
     token variable-name {
