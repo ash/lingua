@@ -1,0 +1,5 @@
+my s = "Perl 6";
+say s[1];
+
+my i = 42;
+say i[1];

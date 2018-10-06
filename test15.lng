@@ -1,0 +1,4 @@
+my s = "Perl";
+my i = 6;
+
+say "$s $i";
