@@ -77,7 +77,10 @@ class LinguaActions {
         $/.make(+$/);
     }
 
-    method string($/) {
-        $/.make(~$/[0]);
+    method string($a) {
+        my $s = ~$a[0];
+        $s ~~ s/\\\"/"/;
+        $s ~~ s:g/\\\\/\\/;
+        $a.make($s);
     }
 }
