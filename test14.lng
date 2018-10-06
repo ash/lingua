@@ -5,4 +5,4 @@ say s;
 say "$s[4]";
 
 my ch = s[4];
-say "The 4th character is $ch"; # e
+say "The 4th character is \"$ch\""; # e
