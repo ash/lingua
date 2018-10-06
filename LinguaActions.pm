@@ -79,7 +79,7 @@ class LinguaActions {
 
     method string($a) {
         my $s = ~$a[0];
-        $s ~~ s/\\\"/"/;
+        $s ~~ s:g/\\\"/"/;
         $s ~~ s:g/\\\\/\\/;
         $a.make($s);
     }
