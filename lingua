@@ -10,7 +10,7 @@ my $filename = @*ARGS[0];
 error("Error: File $filename not found") unless $filename.IO.f;
 
 my $code = $filename.IO.slurp();
-my $result = Lingua.parse($code, :actions(LinguaActions));
+my $result = Lingua.parse($code, :actions(LinguaActions.new));
 say $result ?? 'OK' !! error('Error: parse failed');
 
 sub error($message) {
