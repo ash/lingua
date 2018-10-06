@@ -62,7 +62,7 @@ grammar Lingua is CommentableLanguage does Number {
 
     multi rule expr(4) {
         | <number>
-        | <variable-name>
+        | <variable-name> [ '[' <integer> ']' ]?
         | '(' <expression> ')'
     }
 

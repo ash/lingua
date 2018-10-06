@@ -1,0 +1,8 @@
+my s = "abcdef";
+say s[3]; # prints d
+say s;
+
+say "$s[4]";
+
+my ch = s[4];
+say "The 4th character is $ch"; # e

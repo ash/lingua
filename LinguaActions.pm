@@ -54,7 +54,12 @@ class LinguaActions {
             $/.make($<string>.made);
         }
         elsif $<variable-name> {
-            $/.make(%!var{$<variable-name>});
+            if $<integer> {
+                $/.make(%!var{$<variable-name>}.substr(+$<integer>, 1));
+            }
+            else {
+                $/.make(%!var{$<variable-name>});
+            }
         }
         elsif $<expr> {
             $/.make(process($<expr>, $<op>));
