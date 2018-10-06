@@ -1,0 +1,10 @@
+say "Hello, \"World\"!";
+#say "Hello, \World!";
+say "Hello, \\World!";
+say "\\";
+say "\"";
+say "\\\\";
+say "\"\"";
+say "multi-
+     line";
+say "";
