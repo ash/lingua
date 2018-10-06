@@ -5,3 +5,6 @@ say "Hello indeed";
 
 my name = "John";
 say "Hello, $name";
+
+say 4 + 5;
+say "Hello" + "World";

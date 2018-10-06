@@ -16,15 +16,20 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule variable-declaration {
-        'my' <variable-name> [ '=' <expression> ]?
+        'my' <variable-name> [ '=' <value> ]?
     }
 
     rule assignment {
-        <variable-name> '=' <expression>
+        <variable-name> '=' <value>
     }
 
     rule function-call {
-        <function-name> <expression>
+        <function-name> <value>
+    }
+
+    rule value {
+        | <expression>
+        | <string>
     }
 
     token variable-name {
@@ -57,7 +62,6 @@ grammar Lingua is CommentableLanguage does Number {
 
     multi rule expr(4) {
         | <number>
-        | <string>
         | <variable-name>
         | '(' <expression> ')'
     }

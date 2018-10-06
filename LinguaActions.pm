@@ -2,16 +2,15 @@ class LinguaActions {
     has %!var;
 
     method variable-declaration($/) {
-        %!var{$<variable-name>} = $<expression> ?? $<expression>.made !! 0;
+        %!var{$<variable-name>} = $<value> ?? $<value>.made !! 0;
     }
 
     method assignment($/) {
-        %!var{~$<variable-name>} = $<expression>.made;
+        %!var{~$<variable-name>} = $<value>.made;
     }
 
     method function-call($/) {
-        say $<expression>.made;
-        #say %!var{$<variable-name>} if $<function-name> eq 'say';
+        say $<value>.made;
     }
 
     multi sub operation('+', $a is rw, $b) {
@@ -32,6 +31,15 @@ class LinguaActions {
 
     multi sub operation('**', $a is rw, $b) {
         $a **= $b
+    }
+
+    method value($/) {
+        if $<expression> {
+            $/.make($<expression>.made);
+        }
+        elsif $<string> {
+            $/.make($<string>.made);
+        }
     }
 
     method expression($/) {
