@@ -70,6 +70,6 @@ class LinguaActions {
     }
 
     method string($/) {
-        $/.make(~$/);
+        $/.make(~$/[0]);
     }
 }

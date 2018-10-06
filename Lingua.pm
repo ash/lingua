@@ -63,6 +63,6 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule string {
-        '"' .*? '"'
+        '"' ( <-["]>* ) '"'
     }
 }
