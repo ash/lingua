@@ -1,8 +1,10 @@
+use Variable;
+
 class LinguaActions {
     has %!var;
 
     method variable-declaration($/) {
-        %!var{$<variable-name>} = $<value> ?? $<value>.made !! 0;
+        %!var{$<variable-name>} = $<value> ?? $<value>.made !! Variable.new();
     }
 
     method assignment($/) {
@@ -10,7 +12,12 @@ class LinguaActions {
     }
 
     method function-call($/) {
-        say $<value>.made;
+        if $<function-name> eq 'say' {
+            say $<value>.made.value;
+        }
+        elsif $<function-name> eq 'show' {
+            say $<value>.made.^name ~ ' ' ~ $<value>.made.value;
+        }
     }
 
     multi sub operation('+', $a is rw, $b) {
@@ -79,7 +86,7 @@ class LinguaActions {
     }
 
     method number($/) {
-        $/.make(+$/);
+        $/.make(NumVar.new(value => +$/.Rat))
     }
 
     method string($a) {
@@ -93,6 +100,6 @@ class LinguaActions {
         $s ~~ s:g/\\\\/\\/;
         $s ~~ s:g/\\\$/\$/;
 
-        $a.make($s);
+        $a.make(StrVar.new(value => $s));
     }
 }

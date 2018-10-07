@@ -37,7 +37,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     token function-name {
-        'say'
+        'say' | 'show'
     }
 
     multi token op(1) {

@@ -1,0 +1,9 @@
+my i = 42;
+my f = 4.2;
+my e = 4E2;
+my s = "fourty-two";
+
+show i;
+show f;
+show e;
+show s;
