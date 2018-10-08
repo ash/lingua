@@ -1,0 +1,13 @@
+my x = 3;
+say x;
+
+my s = "abc";
+say s[1];
+
+my data[];
+
+#data[0] = 10;
+#data[1] = 20;
+
+#say data[0];
+#say data[1];

@@ -16,7 +16,18 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule variable-declaration {
-        'my' <variable-name> [ '=' <value> ]?
+        'my' [
+            | <array-declaration>
+            | <scalar-declaration>
+        ]
+    }
+
+    rule array-declaration {
+        <variable-name> '[' ']'
+    }
+
+    rule scalar-declaration {
+        <variable-name> [ '=' <value> ]?
     }
 
     rule assignment {

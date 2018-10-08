@@ -2,7 +2,15 @@ class LinguaActions {
     has %!var;
 
     method variable-declaration($/) {
+        dd %!var;
+    }
+
+    method scalar-declaration($/) {
         %!var{$<variable-name>} = $<value> ?? $<value>.made !! 0;
+    }
+
+    method array-declaration($/) {
+        %!var{$<variable-name>} = $[];
     }
 
     method assignment($/) {
