@@ -13,14 +13,21 @@ class LinguaActions {
         %!var{$<variable-name>} = $[];
     }
 
-    method assignment($/) {        
-        if $<integer> {
-            %!var{~$<variable-name>}[+$<integer>] = $<value>.made;
-        }
-        else {
-            %!var{~$<variable-name>} = $<value>.made;
-        }
+    method array-item-assignment($/) {
+        %!var{~$<variable-name>}[+$<integer>] = $<value>.made;
     }
+
+    method scalar-assignment($/) {
+        %!var{~$<variable-name>} = $<value>.made;
+    }
+    # method assignment($/) {
+    #     if $<integer> {
+    #         %!var{~$<variable-name>}[+$<integer>] = $<value>.made;
+    #     }
+    #     else {
+    #         %!var{~$<variable-name>} = $<value>.made;
+    #     }
+    # }
 
     method function-call($/) {
         say $<value>.made;

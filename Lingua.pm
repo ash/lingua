@@ -31,7 +31,16 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule assignment {
-        <variable-name> [ '[' <integer> ']' ]? '=' <value>
+        | <array-item-assignment>
+        | <scalar-assignment>
+    }
+
+    rule array-item-assignment {
+        <variable-name> [ '[' <integer> ']' ] '=' <value>
+    }
+
+    rule scalar-assignment {
+        <variable-name> '=' <value>
     }
 
     rule function-call {
