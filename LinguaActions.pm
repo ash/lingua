@@ -45,13 +45,12 @@ class LinguaActions {
         $a **= $b
     }
 
-    method value($/) {
-        if $<expression> {
-            $/.make($<expression>.made);
-        }
-        elsif $<string> {
-            $/.make($<string>.made);
-        }
+    multi method value($/ where $<expression>) {
+        $/.make($<expression>.made);
+    }
+
+    multi method value($/ where $<string>) {
+        $/.make($<string>.made);
     }
 
     method expression($/) {
