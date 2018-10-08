@@ -31,7 +31,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule assignment {
-        <variable-name> '=' <value>
+        <variable-name> [ '[' <integer> ']' ]? '=' <value>
     }
 
     rule function-call {

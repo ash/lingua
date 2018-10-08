@@ -1,7 +1,7 @@
 class LinguaActions {
     has %!var;
 
-    method variable-declaration($/) {
+    method TOP($/) {
         dd %!var;
     }
 
@@ -13,8 +13,13 @@ class LinguaActions {
         %!var{$<variable-name>} = $[];
     }
 
-    method assignment($/) {
-        %!var{~$<variable-name>} = $<value>.made;
+    method assignment($/) {        
+        if $<integer> {
+            %!var{~$<variable-name>}[+$<integer>] = $<value>.made;
+        }
+        else {
+            %!var{~$<variable-name>} = $<value>.made;
+        }
     }
 
     method function-call($/) {
