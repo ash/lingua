@@ -57,27 +57,28 @@ class LinguaActions {
         $/.make($<expr>.made);
     }
 
-    method expr($/) {
-        if $<number> {
-            $/.make($<number>.made);
-        }
-        elsif $<string> {
-            $/.make($<string>.made);
-        }
-        elsif $<variable-name> {
-            if $<integer> {
-                $/.make(%!var{$<variable-name>}.substr(+$<integer>, 1));
-            }
-            else {
-                $/.make(%!var{$<variable-name>});
-            }
-        }
-        elsif $<expr> {
-            $/.make(process($<expr>, $<op>));
-        }
-        else {
-            $/.make($<expression>.made);
-        }
+    multi method expr($/ where $<number>) {
+        $/.make($<number>.made);
+    }
+
+    multi method expr($/ where $<string>) {
+        $/.make($<string>.made);
+    }
+
+    multi method expr($/ where $<variable-name> && $<integer>) {
+        $/.make(%!var{$<variable-name>}.substr(+$<integer>, 1));
+    }
+
+    multi method expr($/ where $<variable-name> && !$<integer>) {
+        $/.make(%!var{$<variable-name>});
+    }
+
+    multi method expr($/ where $<expr>) {
+        $/.make(process($<expr>, $<op>));
+    }
+
+    multi method expr($/ where $<expression>) {
+        $/.make($<expression>.made);
     }
 
     sub process(@data, @ops) {
