@@ -59,12 +59,20 @@ class LinguaActions {
         $/.make($<hash-index>.made);
     }
 
-    method array-index($/) {
+    multi method array-index($/ where !$<variable-name>) {
         $/.make(+$<integer>);
     }
 
-    method hash-index($/) {
+    multi method array-index($/ where $<variable-name>) {
+        $/.make(%!var{$<variable-name>});
+    }
+
+    multi method hash-index($/ where !$<variable-name>) {
         $/.make($<string>.made);
+    }
+
+    multi method hash-index($/ where $<variable-name>) {
+        $/.make(%!var{$<variable-name>});
     }
 
     method function-call($/) {

@@ -51,11 +51,11 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule array-index {
-        '[' <integer> ']'
+        '[' [ <integer> | <variable-name> ] ']'
     }
 
     rule hash-index {
-        '{' <string> '}'
+        '{' [ <string> | <variable-name> ] '}'
     }
 
     rule function-call {
