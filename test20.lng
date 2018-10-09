@@ -5,3 +5,4 @@ say data[1];
 my d = data;
 d[2] = 10;
 say d;
+say d[2];

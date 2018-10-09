@@ -18,12 +18,19 @@ grammar Lingua is CommentableLanguage does Number {
     rule variable-declaration {
         'my' [
             | <array-declaration>
+            | <hash-declaration>
             | <scalar-declaration>
         ]
     }
 
     rule array-declaration {
-        <variable-name> '[' ']' [ '=' <value>+ % ',' ]?
+        <variable-name> '[' ']' [ '=' <value>+ %% ',' ]?
+    }
+
+    rule hash-declaration {
+        <variable-name> '{' '}' [
+            '=' [ <string> ':' <value> ]+ %% ','
+        ]?
     }
 
     rule scalar-declaration {
@@ -31,11 +38,24 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule assignment {
-        <variable-name> <index>? '=' <value>+ % ','
+        <variable-name> <index>? '='
+            [
+                | [ <string> ':' <value> ]+ %% ','
+                |                <value>+   %% ','
+            ]
     }
 
     rule index {
+        | <array-index>
+        | <hash-index>
+    }
+
+    rule array-index {
         '[' <integer> ']'
+    }
+
+    rule hash-index {
+        '{' <string> '}'
     }
 
     rule function-call {

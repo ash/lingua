@@ -10,35 +10,65 @@ class LinguaActions {
     }
 
     method init-array($variable-name, @values) {
-        %!var{$variable-name} = $[];
+        %!var{$variable-name} = Array.new;
         for @values -> $value {
             %!var{$variable-name}.push($value.made);
         }
     }
 
     multi method array-declaration($/ where !$<value>) {
-        %!var{$<variable-name>} = $[];
+        %!var{$<variable-name>} = Array.new;
     }
 
     multi method array-declaration($/ where $<value>) {
         self.init-array($<variable-name>, $<value>);
     }
 
-    multi method assignment($/ where $<index>) {
+    method init-hash($variable-name, @keys, @values) {
+        %!var{$variable-name} = Hash.new;
+        while @keys {
+            %!var{$variable-name}.{@keys.shift.made} = @values.shift.made;
+        }
+    }
+
+    multi method hash-declaration($/) {
+        self.init-hash($<variable-name>, $<string>, $<value>);
+    }
+
+    multi method assignment($/ where $<index> && $<index><array-index>) {
         %!var{$<variable-name>}[$<index>.made] = $<value>[0].made;
+    }
+
+    multi method assignment($/ where $<index> && $<index><hash-index>) {
+        %!var{$<variable-name>}{$<index>.made} = $<value>[0].made;
     }
 
     multi method assignment($/ where !$<index>) {
         if %!var{$<variable-name>} ~~ Array {
             self.init-array($<variable-name>, $<value>);
         }
+        elsif %!var{$<variable-name>} ~~ Hash {
+            self.init-hash($<variable-name>, $<string>, $<value>);
+        }
         else {
             %!var{$<variable-name>} = $<value>[0].made;
         }
     }
 
-    method index($/) {
+    multi method index($/ where $<array-index>) {
+        $/.make($<array-index>.made);
+    }
+
+    multi method index($/ where $<hash-index>) {
+        $/.make($<hash-index>.made);
+    }
+
+    method array-index($/) {
         $/.make(+$<integer>);
+    }
+
+    method hash-index($/) {
+        $/.make($<string>.made);
     }
 
     method function-call($/) {
@@ -47,7 +77,14 @@ class LinguaActions {
         if $object ~~ Array {
             say $object.join(', ');
         }
-        else {
+        elsif $object ~~ Hash {
+            my @str;
+            for $object.keys.sort -> $key {
+                @str.push("$key: $object{$key}");
+            }
+            say @str.join(', ');
+        }
+        else {            
             say $object;
         }
     }
@@ -95,6 +132,9 @@ class LinguaActions {
     multi method expr($/ where $<variable-name> && $<index>) {
         if %!var{$<variable-name>} ~~ Array {
             $/.make(%!var{$<variable-name>}[$<index>.made]);
+        }
+        elsif %!var{$<variable-name>} ~~ Hash {
+            $/.make(%!var{$<variable-name>}{$<index>.made});
         }
         else {
             $/.make(%!var{$<variable-name>}.substr($<index>.made, 1));

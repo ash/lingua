@@ -1,0 +1,14 @@
+my data{};
+#say data;
+
+my hash{} = "alpha" : 1, "beta": 2, "gamma": 3;
+say hash;
+
+my days{};
+days = "Mon": "work", "Sat": "rest";
+say days;
+
+days{"Tue"} = "work";
+say days;
+
+say days{"Sat"};
