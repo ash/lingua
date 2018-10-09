@@ -1,10 +1,6 @@
 class LinguaActions {
     has %!var;
 
-    method TOP($/) {
-        dd %!var;
-    }
-
     method scalar-declaration($/) {
         %!var{$<variable-name>} = $<value> ?? $<value>.made !! 0;
     }
