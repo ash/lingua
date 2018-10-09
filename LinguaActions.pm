@@ -42,7 +42,14 @@ class LinguaActions {
     }
 
     method function-call($/) {
-        say $<value>.made;
+        my $object = $<value>.made;
+
+        if $object ~~ Array {
+            say $object.join(', ');
+        }
+        else {
+            say $object;
+        }
     }
 
     multi sub operation('+', $a is rw, $b) {

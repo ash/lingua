@@ -1,0 +1,7 @@
+my data[] = 5, 7, 9;
+say data;
+say data[1];
+
+my d = data;
+d[2] = 10;
+say d;
