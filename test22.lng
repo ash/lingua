@@ -4,7 +4,7 @@ my b = 4;
 my c = 5;
 my left = a**2 + b**2;
 my right = c**2;
-say "The sum of squares of a triangle with the 
+say "The hypotenuse of a rectangle triangle with the 
 sides $a and $b is indeed $c, as $left = $right.";
 
 /* Using floating-point numbers for 
