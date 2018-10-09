@@ -19,3 +19,6 @@ say data[1];
 
 my n = data[0] * data[1];
 say n;
+
+data[2] = "string";
+say data[2];
