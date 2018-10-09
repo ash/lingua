@@ -66,7 +66,12 @@ class LinguaActions {
     }
 
     multi method expr($/ where $<variable-name> && $<integer>) {
-        $/.make(%!var{$<variable-name>}.substr(+$<integer>, 1));
+        if %!var{$<variable-name>} ~~ Array {
+            $/.make(%!var{$<variable-name>}[+$<integer>]);
+        }
+        else {
+            $/.make(%!var{$<variable-name>}.substr(+$<integer>, 1));
+        }
     }
 
     multi method expr($/ where $<variable-name> && !$<integer>) {
