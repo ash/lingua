@@ -1,0 +1,28 @@
+# Illustrating the Pythagorean theorem
+my a = 3;
+my b = 4;
+my c = 5;
+my left = a**2 + b**2;
+my right = c**2;
+say "The sum of squares of a triangle with the 
+sides $a and $b is indeed $c, as $left = $right.";
+
+/* Using floating-point numbers for 
+computing the length of a circle */
+my pi = 3.1415926;
+my R = 7;
+my c = 2 * pi * R;
+say "The length of a circle of radius $R is $c.";
+
+# A list of prime numbers
+my n = 5;
+my data[] = 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31;
+my nth = data[n];
+say "$n th prime number is $nth.";
+
+# Demonstrating the use of hashes
+my countries{} = 
+    "France": "Paris", "Germany": "Berlin", "Italy": "Rome";
+my country = "Italy";
+my city = countries{country};
+say "$city is the capital of $country.";
