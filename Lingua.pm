@@ -23,7 +23,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule array-declaration {
-        <variable-name> '[' ']'
+        <variable-name> '[' ']' [ '=' <value>+ % ',' ]?
     }
 
     rule scalar-declaration {
@@ -31,7 +31,11 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule assignment {
-        <variable-name> [ '[' <integer> ']' ]? '=' <value>
+        <variable-name> <index>? '=' <value>+ % ','
+    }
+
+    rule index {
+        '[' <integer> ']'
     }
 
     rule function-call {
@@ -73,7 +77,7 @@ grammar Lingua is CommentableLanguage does Number {
 
     multi rule expr(4) {
         | <number>
-        | <variable-name> [ '[' <integer> ']' ]?
+        | <variable-name> <index>?
         | '(' <expression> ')'
     }
 

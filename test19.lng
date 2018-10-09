@@ -1,0 +1,15 @@
+my data[] = 111, 222, 333;
+say data[2];
+
+data = 7, 9, 11;
+say data[0];
+say data[1];
+say data[2];
+
+my strings[] = "alpha", "beta", "gamma";
+say strings[1]; # beta
+
+my arr[] = 11, 3 * 4, 2 * (6 + 0.5);
+say arr[0]; # 11
+say arr[1]; # 12
+say arr[2]; # 13

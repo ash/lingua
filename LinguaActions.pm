@@ -9,16 +9,36 @@ class LinguaActions {
         %!var{$<variable-name>} = $<value> ?? $<value>.made !! 0;
     }
 
-    method array-declaration($/) {
+    method init-array($variable-name, @values) {
+        %!var{$variable-name} = $[];
+        for @values -> $value {
+            %!var{$variable-name}.push($value.made);
+        }
+    }
+
+    multi method array-declaration($/ where !$<value>) {
         %!var{$<variable-name>} = $[];
     }
 
-    multi method assignment($/ where $<integer>) {
-        %!var{~$<variable-name>}[+$<integer>] = $<value>.made;
+    multi method array-declaration($/ where $<value>) {
+        self.init-array($<variable-name>, $<value>);
     }
 
-    multi method assignment($/ where !$<integer>) {
-        %!var{~$<variable-name>} = $<value>.made;
+    multi method assignment($/ where $<index>) {
+        %!var{$<variable-name>}[$<index>.made] = $<value>[0].made;
+    }
+
+    multi method assignment($/ where !$<index>) {
+        if %!var{$<variable-name>} ~~ Array {
+            self.init-array($<variable-name>, $<value>);
+        }
+        else {
+            %!var{$<variable-name>} = $<value>[0].made;
+        }
+    }
+
+    method index($/) {
+        $/.make(+$<integer>);
     }
 
     method function-call($/) {
@@ -65,16 +85,16 @@ class LinguaActions {
         $/.make($<string>.made);
     }
 
-    multi method expr($/ where $<variable-name> && $<integer>) {
+    multi method expr($/ where $<variable-name> && $<index>) {
         if %!var{$<variable-name>} ~~ Array {
-            $/.make(%!var{$<variable-name>}[+$<integer>]);
+            $/.make(%!var{$<variable-name>}[$<index>.made]);
         }
         else {
-            $/.make(%!var{$<variable-name>}.substr(+$<integer>, 1));
+            $/.make(%!var{$<variable-name>}.substr($<index>.made, 1));
         }
     }
 
-    multi method expr($/ where $<variable-name> && !$<integer>) {
+    multi method expr($/ where $<variable-name> && !$<index>) {
         $/.make(%!var{$<variable-name>});
     }
 
