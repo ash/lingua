@@ -1,8 +1,34 @@
+use AST;
+
 class LinguaActions {
     has %!var;
 
-    method scalar-declaration($/) {
-        %!var{$<variable-name>} = $<value> ?? $<value>.made !! 0;
+    method TOP($/) {
+        my $top = AST::TOP.new;
+        for $<statement> -> $statement {
+            $top.statements.push($statement.made);
+        }
+
+        dd $top;
+    }
+
+    method statement($/ where $<variable-declaration>) {
+        $/.make($<variable-declaration>.made);
+    }
+
+    method variable-declaration($/ where $<scalar-declaration>) {
+        $/.make($<scalar-declaration>.made);
+    }
+
+    multi method scalar-declaration($/ where !$<value>) {
+        $/.make(AST::ScalarDeclaration.new(
+            variable-name => ~$<variable-name>,
+            value => 0,
+        ));
+    }
+
+    multi method scalar-declaration($/ where $<value>) {
+        %!var{$<variable-name>} = $<value>.made;
     }
 
     method init-array($variable-name, @values) {
