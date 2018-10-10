@@ -11,12 +11,8 @@ grammar Lingua is CommentableLanguage does Number {
 
     rule statement {
         | <variable-declaration>
-        | <condition>? <assignment>
-        | <condition>? <function-call>
-    }
-
-    rule condition {
-        'if' <variable-name>
+        | <assignment>
+        | <function-call>
     }
 
     rule variable-declaration {

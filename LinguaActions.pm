@@ -1,18 +1,6 @@
 class LinguaActions {
     has %!var;
 
-    method condition($/) {
-        $/.make($<variable-name>.made ?? 1 !! 0);
-    }
-
-    method statement($/) {
-        if $<condition> {
-            my $condition = $<condition>.made;
-            say "test condition = $condition";
-            fail unless $condition;
-        }
-    }
-
     method scalar-declaration($/) {
         %!var{$<variable-name>} = $<value> ?? $<value>.made !! 0;
     }
@@ -59,7 +47,6 @@ class LinguaActions {
             self.init-hash($<variable-name>, $<string>, $<value>);
         }
         else {
-            say "assign $<variable-name> to " ~ $<value>[0].made;
             %!var{$<variable-name>} = $<value>[0].made;
         }
     }
