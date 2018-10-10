@@ -59,7 +59,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule function-call {
-        ['if' <variable-name>]? <function-name> <value>
+        <function-name> <value> ['if' <variable-name>]?
     }
 
     rule value {
