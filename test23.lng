@@ -1,2 +1,2 @@
-my condition = 1;
-if condition say "Passed";
+my condition = 0;
+say "Passed" if condition;
