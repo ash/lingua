@@ -1,2 +1,8 @@
-my condition = 0;
-say "Passed" if condition;
+#my condition = 1;
+#if condition say "Passed";
+
+my x = 8;
+x = 9;
+if condition x = 10;
+say x;
+

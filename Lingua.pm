@@ -11,8 +11,12 @@ grammar Lingua is CommentableLanguage does Number {
 
     rule statement {
         | <variable-declaration>
-        | <assignment>
-        | <function-call>
+        | <condition>? <assignment>
+        | <condition>? <function-call>
+    }
+
+    rule condition {
+        'if' <variable-name>
     }
 
     rule variable-declaration {
@@ -59,7 +63,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule function-call {
-        <function-name> <value> ['if' <variable-name>]?
+        <function-name> <value>
     }
 
     rule value {
