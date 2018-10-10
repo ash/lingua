@@ -76,6 +76,11 @@ class LinguaActions {
     }
 
     method function-call($/) {
+        if $<variable-name> {
+            my $condition = %!var{$<variable-name>};
+            return unless $condition;
+        }
+
         my $object = $<value>.made;
 
         if $object ~~ Array {

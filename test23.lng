@@ -1,0 +1,2 @@
+my condition = 1;
+if condition say "Passed";
