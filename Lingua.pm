@@ -17,9 +17,9 @@ grammar Lingua is CommentableLanguage does Number {
 
     rule variable-declaration {
         'my' [
-            | <array-declaration>
-            | <hash-declaration>
-            | <scalar-declaration>
+            | <declaration=array-declaration>
+            | <declaration=hash-declaration>
+            | <declaration=scalar-declaration>
         ]
     }
 

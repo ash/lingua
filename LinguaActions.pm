@@ -16,16 +16,8 @@ class LinguaActions {
         $/.make($<variable-declaration>.made);
     }
 
-    multi method variable-declaration($/ where $<scalar-declaration>) {
-        $/.make($<scalar-declaration>.made);
-    }
-
-    multi method variable-declaration($/ where $<array-declaration>) {
-        $/.make($<array-declaration>.made);
-    }
-
-    multi method variable-declaration($/ where $<hash-declaration>) {
-        $/.make($<hash-declaration>.made);
+    multi method variable-declaration($/) {
+        $/.make($<declaration>.made);
     }
 
     method scalar-declaration($/) {
