@@ -16,40 +16,52 @@ class LinguaActions {
         $/.make($<variable-declaration>.made);
     }
 
-    method variable-declaration($/ where $<scalar-declaration>) {
+    multi method variable-declaration($/ where $<scalar-declaration>) {
         $/.make($<scalar-declaration>.made);
+    }
+
+    multi method variable-declaration($/ where $<array-declaration>) {
+        $/.make($<array-declaration>.made);
+    }
+
+    multi method variable-declaration($/ where $<hash-declaration>) {
+        $/.make($<hash-declaration>.made);
     }
 
     method scalar-declaration($/) {
         $/.make(AST::ScalarDeclaration.new(
             variable-name => ~$<variable-name>,
-            value => $<value> ?? $<value>.made !! AST::Null,
+            value => $<value> ?? $<value>.made !! AST::Null.new(),
         ));
     }
 
-    method init-array($variable-name, @values) {
-        %!var{$variable-name} = Array.new;
-        for @values -> $value {
-            %!var{$variable-name}.push($value.made);
-        }
-    }
+    # method init-array($variable-name, @values) {
+    #     %!var{$variable-name} = Array.new;
+    #     for @values -> $value {
+    #         %!var{$variable-name}.push($value.made);
+    #     }
+    # }
 
     multi method array-declaration($/ where !$<value>) {
-        %!var{$<variable-name>} = Array.new;
+        $/.make(AST::ArrayDeclaration.new(variable-name => ~$<variable-name>, elements => []));
     }
 
     multi method array-declaration($/ where $<value>) {
         self.init-array($<variable-name>, $<value>);
     }
 
-    method init-hash($variable-name, @keys, @values) {
-        %!var{$variable-name} = Hash.new;
-        while @keys {
-            %!var{$variable-name}.{@keys.shift.made} = @values.shift.made;
-        }
+    # method init-hash($variable-name, @keys, @values) {
+    #     %!var{$variable-name} = Hash.new;
+    #     while @keys {
+    #         %!var{$variable-name}.{@keys.shift.made} = @values.shift.made;
+    #     }
+    # }
+
+    multi method hash-declaration($/ where !$<string>) {
+        $/.make(AST::HashDeclaration.new(variable-name => ~$<variable-name>, elements => {}));
     }
 
-    multi method hash-declaration($/) {
+    multi method hash-declaration($/ where $<string> && $<value>) {
         self.init-hash($<variable-name>, $<string>, $<value>);
     }
 

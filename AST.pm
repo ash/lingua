@@ -24,3 +24,13 @@ class AST::Null is ASTNode {
 class AST::Variable is ASTNode {
     has Str $.variable-name;
 }
+
+class AST::ArrayDeclaration is ASTNode {
+    has Str $.variable-name;
+    has ASTNode @.elements;
+}
+
+class AST::HashDeclaration is ASTNode {
+    has Str $.variable-name;
+    has ASTNode %.elements;
+}

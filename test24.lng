@@ -3,6 +3,3 @@ my b = 2;
 my c = b;
 
 my s = "abc";
-
-#my c = 2 + 3;
-#my d = b + c;
