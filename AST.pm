@@ -14,5 +14,13 @@ class AST::NumberValue is ASTNode {
     has $.value;
 }
 
+class AST::StringValue is ASTNode {
+    has Str $.value;
+}
+
 class AST::Null is ASTNode {
+}
+
+class AST::Variable is ASTNode {
+    has Str $.variable-name;
 }

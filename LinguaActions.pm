@@ -173,7 +173,7 @@ class LinguaActions {
     }
 
     multi method expr($/ where $<variable-name> && !$<index>) {
-        $/.make(%!var{$<variable-name>});
+        $/.make(AST::Variable.new(variable-name => ~$<variable-name>));
     }
 
     multi method expr($/ where $<expr>) {
@@ -208,6 +208,6 @@ class LinguaActions {
         $s ~~ s:g/\\\\/\\/;
         $s ~~ s:g/\\\$/\$/;
 
-        $a.make($s);
+        $a.make(AST::StringValue.new(value => $s));
     }
 }
