@@ -7,5 +7,12 @@ class AST::TOP is ASTNode {
 
 class AST::ScalarDeclaration is ASTNode {
     has Str $.variable-name;    
+    has ASTNode $.value;
+}
+
+class AST::NumberValue is ASTNode {
     has $.value;
+}
+
+class AST::Null is ASTNode {
 }

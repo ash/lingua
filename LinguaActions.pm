@@ -20,15 +20,11 @@ class LinguaActions {
         $/.make($<scalar-declaration>.made);
     }
 
-    multi method scalar-declaration($/ where !$<value>) {
+    method scalar-declaration($/) {
         $/.make(AST::ScalarDeclaration.new(
             variable-name => ~$<variable-name>,
-            value => 0,
+            value => $<value> ?? $<value>.made !! AST::Null,
         ));
-    }
-
-    multi method scalar-declaration($/ where $<value>) {
-        %!var{$<variable-name>} = $<value>.made;
     }
 
     method init-array($variable-name, @values) {
@@ -198,7 +194,7 @@ class LinguaActions {
     }
 
     method number($/) {
-        $/.make(+$/);
+        $/.make(AST::NumberValue.new(value => +$/));
     }
 
     method string($a) {
