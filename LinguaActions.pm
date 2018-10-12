@@ -28,34 +28,35 @@ class LinguaActions {
         ));
     }
 
-    # method init-array($variable-name, @values) {
-    #     %!var{$variable-name} = Array.new;
-    #     for @values -> $value {
-    #         %!var{$variable-name}.push($value.made);
-    #     }
-    # }
-
     multi method array-declaration($/ where !$<value>) {
         $/.make(AST::ArrayDeclaration.new(variable-name => ~$<variable-name>, elements => []));
     }
 
-    multi method array-declaration($/ where $<value>) {
-        self.init-array($<variable-name>, $<value>);
+    sub init-array($variable-name, $elements) {
+        return AST::ArrayAssignment.new(
+            variable-name => $variable-name,
+            elements => $elements.map: *.made
+        );
     }
 
-    # method init-hash($variable-name, @keys, @values) {
-    #     %!var{$variable-name} = Hash.new;
-    #     while @keys {
-    #         %!var{$variable-name}.{@keys.shift.made} = @values.shift.made;
-    #     }
-    # }
+    multi method array-declaration($/ where $<value>) {
+        $/.make(init-array(~$<variable-name>, $<value>));
+    }
 
     multi method hash-declaration($/ where !$<string>) {
         $/.make(AST::HashDeclaration.new(variable-name => ~$<variable-name>, elements => {}));
     }
 
+    sub init-hash($variable-name, $keys, $values) {
+        return AST::HashAssignment.new(
+            variable-name => $variable-name,
+            keys => ($keys.map: *.made.value),
+            values => ($values.map: *.made)
+        );
+    }
+
     multi method hash-declaration($/ where $<string> && $<value>) {
-        self.init-hash($<variable-name>, $<string>, $<value>);
+        $/.make(init-hash(~$<variable-name>, $<string>, $<value>));
     }
 
     multi method assignment($/ where $<index> && $<index><array-index>) {
@@ -82,18 +83,11 @@ class LinguaActions {
     }
 
     multi method assignment($/ where !$<index> && $<value> && !$<string>) {
-        $/.make(AST::ArrayAssignment.new(
-            variable-name => ~$<variable-name>,
-            elements => $<value>.map: *.made
-        ));
+        $/.make(init-array(~$<variable-name>, $<value>));
     }
 
     multi method assignment($/ where !$<index> && $<value> && $<string>) {
-        $/.make(AST::HashAssignment.new(
-            variable-name => ~$<variable-name>,
-            keys => ($<string>.map: *.made.value),
-            values => ($<value>.map: *.made)
-        ));
+        $/.make(init-hash(~$<variable-name>, $<string>, $<value>));
     }
 
     multi method index($/ where $<array-index>) {
