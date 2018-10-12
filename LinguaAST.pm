@@ -51,3 +51,14 @@ class AST::HashItemAssignment is ASTNode {
     has Str $.key;
     has ASTNode $.rhs;
 }
+
+class AST::ArrayAssignment is ASTNode {
+    has Str $.variable-name;
+    has ASTNode @.elements;
+}
+
+class AST::HashAssignment is ASTNode {
+    has Str $.variable-name;
+    has Str @.keys;
+    has ASTNode @.values;
+}

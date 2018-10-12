@@ -74,19 +74,26 @@ class LinguaActions {
         ));
     }
 
-    multi method assignment($/ where !$<index>) {
-        if %!var{$<variable-name>} ~~ Array {
-            self.init-array($<variable-name>, $<value>);
-        }
-        elsif %!var{$<variable-name>} ~~ Hash {
-            self.init-hash($<variable-name>, $<string>, $<value>);
-        }
-        else {
-            $/.make(AST::ScalarAssignment.new(
-                variable-name => ~$<variable-name>,
-                rhs => $<value>[0].made
-            ));
-        }
+    multi method assignment($/ where !$<index> && !$<value>) {
+        $/.make(AST::ScalarAssignment.new(
+            variable-name => ~$<variable-name>,
+            rhs => $<value>[0].made
+        ));
+    }
+
+    multi method assignment($/ where !$<index> && $<value> && !$<string>) {
+        $/.make(AST::ArrayAssignment.new(
+            variable-name => ~$<variable-name>,
+            elements => $<value>.map: *.made
+        ));
+    }
+
+    multi method assignment($/ where !$<index> && $<value> && $<string>) {
+        $/.make(AST::HashAssignment.new(
+            variable-name => ~$<variable-name>,
+            keys => ($<string>.map: *.made.value),
+            values => ($<value>.map: *.made)
+        ));
     }
 
     multi method index($/ where $<array-index>) {
