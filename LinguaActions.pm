@@ -10,10 +10,11 @@ class LinguaActions {
         }
 
         dd $top;
+        $/.make($top);
     }
 
-    method statement($/ where $<variable-declaration>) {
-        $/.make($<variable-declaration>.made);
+    method statement($/) {
+        $/.make($<statement>.made);
     }
 
     multi method variable-declaration($/) {
@@ -73,7 +74,8 @@ class LinguaActions {
             self.init-hash($<variable-name>, $<string>, $<value>);
         }
         else {
-            %!var{$<variable-name>} = $<value>[0].made;
+            say "scalar assignment";
+            $/.make(AST::ScalarAssignment.new(variable-name => ~$<variable-name>, rhs => $<value>[0].made));
         }
     }
 

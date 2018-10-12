@@ -34,3 +34,8 @@ class AST::HashDeclaration is ASTNode {
     has Str $.variable-name;
     has ASTNode %.elements;
 }
+
+class AST::ScalarAssignment is ASTNode {
+    has Str $.variable-name;
+    has ASTNode $.rhs;
+}

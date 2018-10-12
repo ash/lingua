@@ -1,3 +1,4 @@
 my array[];
 my hash{};
-my scalar;
+my scalar = 3;
+my s;
