@@ -10,9 +10,9 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule statement {
-        | <variable-declaration>
-        | <assignment>
-        | <function-call>
+        | <statement=variable-declaration>
+        | <statement=assignment>
+        | <statement=function-call>
     }
 
     rule variable-declaration {
