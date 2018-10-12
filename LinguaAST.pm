@@ -39,3 +39,15 @@ class AST::ScalarAssignment is ASTNode {
     has Str $.variable-name;
     has ASTNode $.rhs;
 }
+
+class AST::ArrayItemAssignment is ASTNode {
+    has Str $.variable-name;
+    has Int $.index;
+    has ASTNode $.rhs;
+}
+
+class AST::HashItemAssignment is ASTNode {
+    has Str $.variable-name;
+    has Str $.key;
+    has ASTNode $.rhs;
+}

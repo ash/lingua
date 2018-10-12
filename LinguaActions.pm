@@ -59,11 +59,19 @@ class LinguaActions {
     }
 
     multi method assignment($/ where $<index> && $<index><array-index>) {
-        %!var{$<variable-name>}[$<index>.made] = $<value>[0].made;
+        $/.make(AST::ArrayItemAssignment.new(
+            variable-name => ~$<variable-name>,
+            index => $<index>.made,
+            rhs => $<value>[0].made
+        ));
     }
 
     multi method assignment($/ where $<index> && $<index><hash-index>) {
-        %!var{$<variable-name>}{$<index>.made} = $<value>[0].made;
+        $/.make(AST::HashItemAssignment.new(
+            variable-name => ~$<variable-name>,
+            key => $<index>.made.value,
+            rhs => $<value>[0].made
+        ));
     }
 
     multi method assignment($/ where !$<index>) {
@@ -74,8 +82,10 @@ class LinguaActions {
             self.init-hash($<variable-name>, $<string>, $<value>);
         }
         else {
-            say "scalar assignment";
-            $/.make(AST::ScalarAssignment.new(variable-name => ~$<variable-name>, rhs => $<value>[0].made));
+            $/.make(AST::ScalarAssignment.new(
+                variable-name => ~$<variable-name>,
+                rhs => $<value>[0].made
+            ));
         }
     }
 
