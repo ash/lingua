@@ -1,7 +1,7 @@
 #!/usr/bin/env perl6
 
 use lib '.';
-use Lingua;
+use LinguaGrammar;
 use LinguaActions;
 
 error('Usage: ./lingua <filename>') unless @*ARGS.elems;
