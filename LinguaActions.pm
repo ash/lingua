@@ -1,4 +1,4 @@
-use AST;
+use LinguaAST;
 
 class LinguaActions {
     has %!var;
