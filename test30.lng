@@ -1,0 +1,10 @@
+my a = 10;
+say a;
+
+my b[] = 20, 30;
+say b;
+say b[1];
+
+my c{} = "a": 1, "b": 2;
+say c;
+say c{"a"};

@@ -137,26 +137,10 @@ class LinguaActions {
     }
 
     method function-call($/) {
-        if $<variable-name> {
-            my $condition = %!var{$<variable-name>};
-            return unless $condition;
-        }
-
-        my $object = $<value>.made;
-
-        if $object ~~ Array {
-            say $object.join(q{, });
-        }
-        elsif $object ~~ Hash {
-            my @str;
-            for $object.keys.sort -> $key {
-                @str.push("$key: $object{$key}");
-            }
-            say @str.join(q{, });
-        }
-        else {            
-            say $object;
-        }
+        $/.make(AST::FunctionCall.new(
+            function-name => ~$<function-name>,
+            value => $<value>.made
+        ));
     }
 
     multi method value($/ where $<variable-name> && !$<index>) {

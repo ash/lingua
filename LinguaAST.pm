@@ -77,3 +77,8 @@ class AST::HashItem is ASTNode {
     has Str $.variable-name;
     has Str $.key;
 }
+
+class AST::FunctionCall is ASTNode {
+    has Str $.function-name;
+    has ASTNode $.value;
+}
