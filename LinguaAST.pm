@@ -62,3 +62,8 @@ class AST::HashAssignment is ASTNode {
     has Str @.keys;
     has ASTNode @.values;
 }
+
+class AST::MathOperations is ASTNode {
+    has Str @.operators;
+    has ASTNode @.operands;
+}

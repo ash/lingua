@@ -123,38 +123,18 @@ class LinguaActions {
         my $object = $<value>.made;
 
         if $object ~~ Array {
-            say $object.join(', ');
+            say $object.join(q{, });
         }
         elsif $object ~~ Hash {
             my @str;
             for $object.keys.sort -> $key {
                 @str.push("$key: $object{$key}");
             }
-            say @str.join(', ');
+            say @str.join(q{, });
         }
         else {            
             say $object;
         }
-    }
-
-    multi sub operation('+', $a is rw, $b) {
-        $a += $b
-    }
-
-    multi sub operation('-', $a is rw, $b) {
-        $a -= $b
-    }
-
-    multi sub operation('*', $a is rw, $b) {
-        $a *= $b
-    }
-
-    multi sub operation('/', $a is rw, $b) {
-        $a /= $b
-    }
-
-    multi sub operation('**', $a is rw, $b) {
-        $a **= $b
     }
 
     multi method value($/ where $<expression>) {
@@ -193,21 +173,21 @@ class LinguaActions {
         $/.make(AST::Variable.new(variable-name => ~$<variable-name>));
     }
 
-    multi method expr($/ where $<expr>) {
-        $/.make(process($<expr>, $<op>));
+    multi method expr($/ where $<expr> && !$<op>) {
+        $/.make(AST::NumberValue.new(
+            value => $<expr>[0].made.value
+        ));
+    }
+
+    multi method expr($/ where $<expr> && $<op>) {
+        $/.make(AST::MathOperations.new(
+            operators => ($<op>.map: ~*),
+            operands => ($<expr>.map: *.made)
+        ));
     }
 
     multi method expr($/ where $<expression>) {
         $/.make($<expression>.made);
-    }
-
-    sub process(@data, @ops) {
-        my @nums = @data.map: *.made;
-        my $result = @nums.shift;
-
-        operation(~@ops.shift, $result, @nums.shift) while @nums;
-
-        return $result;
     }
 
     method number($/) {

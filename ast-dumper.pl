@@ -1,5 +1,8 @@
 #!/usr/bin/env perl6
 
+# Run it as:
+# ./lingua test27.lng 2>&1 | ./ast-dumper.pl
+
 my @ast = $*IN.lines();
 my $ast = @ast[0];
 
