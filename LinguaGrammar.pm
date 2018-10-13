@@ -63,6 +63,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule value {
+        | <variable-name> <index>?
         | <expression>
         | <string>
     }

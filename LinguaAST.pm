@@ -67,3 +67,13 @@ class AST::MathOperations is ASTNode {
     has Str @.operators;
     has ASTNode @.operands;
 }
+
+class AST::ArrayItem is ASTNode {
+    has Str $.variable-name;
+    has ASTNode $.index;
+}
+
+class AST::HashItem is ASTNode {
+    has Str $.variable-name;
+    has Str $.key;
+}

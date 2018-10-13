@@ -66,11 +66,19 @@ class LinguaActions {
     }
 
     multi method assignment($/ where $<index> && $<index><array-index>) {
-        $/.make(AST::ArrayItemAssignment.new(
-            variable-name => ~$<variable-name>,
-            index => $<index>.made,
-            rhs => $<value>[0].made
-        ));
+        if $<value>.elems == 1 {
+            $/.make(AST::ScalarAssignment.new(
+                variable-name => ~$<variable-name>,
+                rhs => $<value>[0].made
+            ));
+        }
+        else {
+            $/.make(AST::ArrayItemAssignment.new(
+                variable-name => ~$<variable-name>,
+                index => $<index>.made,
+                rhs => $<value>[0].made
+            ));
+        }
     }
 
     multi method assignment($/ where $<index> && $<index><hash-index>) {
@@ -81,15 +89,11 @@ class LinguaActions {
         ));
     }
 
-    multi method assignment($/ where !$<index> && !$<value>) {
+    multi method assignment($/ where !$<index> && $<value> && !$<string>) {
         $/.make(AST::ScalarAssignment.new(
             variable-name => ~$<variable-name>,
             rhs => $<value>[0].made
         ));
-    }
-
-    multi method assignment($/ where !$<index> && $<value> && !$<string>) {
-        $/.make(init-array(~$<variable-name>, $<value>));
     }
 
     multi method assignment($/ where !$<index> && $<value> && $<string>) {
@@ -105,11 +109,15 @@ class LinguaActions {
     }
 
     multi method array-index($/ where !$<variable-name>) {
-        $/.make(+$<integer>);
+        $/.make(AST::NumberValue.new(
+            value => +$<integer>
+        ));
     }
 
     multi method array-index($/ where $<variable-name>) {
-        $/.make(%!var{$<variable-name>});
+        $/.make(AST::Variable.new(
+            variable-name => ~$<variable-name>
+        ));
     }
 
     multi method hash-index($/ where !$<variable-name>) {
@@ -143,6 +151,26 @@ class LinguaActions {
         }
     }
 
+    multi method value($/ where $<variable-name> && !$<index>) {
+        $/.make(AST::Variable.new(
+            variable-name => ~$<variable-name>
+        ));
+    }
+
+    multi method value($/ where $<variable-name> && $<index> && $<index><array-index>) {
+        $/.make(AST::ArrayItem.new(
+            variable-name => ~$<variable-name>,
+            index => $<index>.made
+        ));
+    }
+
+    multi method value($/ where $<variable-name> && $<index> && $<index><hash-index>) {
+        $/.make(AST::HashItem.new(
+            variable-name => ~$<variable-name>,
+            key => $<index>.made.value
+        ));
+    }
+
     multi method value($/ where $<expression>) {
         $/.make($<expression>.made);
     }
@@ -163,27 +191,29 @@ class LinguaActions {
         $/.make($<string>.made);
     }
 
-    multi method expr($/ where $<variable-name> && $<index>) {
-        if %!var{$<variable-name>} ~~ Array {
-            $/.make(%!var{$<variable-name>}[$<index>.made]);
-        }
-        elsif %!var{$<variable-name>} ~~ Hash {
-            $/.make(%!var{$<variable-name>}{$<index>.made});
-        }
-        else {
-            $/.make(%!var{$<variable-name>}.substr($<index>.made, 1));
-        }
-    }
-
     multi method expr($/ where $<variable-name> && !$<index>) {
         $/.make(AST::Variable.new(
             variable-name => ~$<variable-name>
         ));
     }
 
+    multi method expr($/ where $<variable-name> && $<index> && $<index><array-index>) {
+        $/.make(AST::ArrayItem.new(
+            variable-name => ~$<variable-name>,
+            index => $<index>.made
+        ));
+    }
+
+    multi method expr($/ where $<variable-name> && $<index> && $<index><hash-index>) {
+        $/.make(AST::HashItem.new(
+            variable-name => ~$<variable-name>,
+            key => $<index>.made.value
+        ));
+    }
+
     multi method expr($/ where $<expr> && !$<op>) {
         $/.make(AST::NumberValue.new(
-            value => $<expr>[0].made.value
+            value => $<expr>[0].made
         ));
     }
 
