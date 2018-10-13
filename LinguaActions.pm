@@ -29,7 +29,10 @@ class LinguaActions {
     }
 
     multi method array-declaration($/ where !$<value>) {
-        $/.make(AST::ArrayDeclaration.new(variable-name => ~$<variable-name>, elements => []));
+        $/.make(AST::ArrayDeclaration.new(
+            variable-name => ~$<variable-name>,
+            elements => []
+        ));
     }
 
     sub init-array($variable-name, $elements) {
@@ -44,7 +47,10 @@ class LinguaActions {
     }
 
     multi method hash-declaration($/ where !$<string>) {
-        $/.make(AST::HashDeclaration.new(variable-name => ~$<variable-name>, elements => {}));
+        $/.make(AST::HashDeclaration.new(
+            variable-name => ~$<variable-name>,
+            elements => {}
+        ));
     }
 
     sub init-hash($variable-name, $keys, $values) {
@@ -170,7 +176,9 @@ class LinguaActions {
     }
 
     multi method expr($/ where $<variable-name> && !$<index>) {
-        $/.make(AST::Variable.new(variable-name => ~$<variable-name>));
+        $/.make(AST::Variable.new(
+            variable-name => ~$<variable-name>
+        ));
     }
 
     multi method expr($/ where $<expr> && !$<op>) {
@@ -191,7 +199,9 @@ class LinguaActions {
     }
 
     method number($/) {
-        $/.make(AST::NumberValue.new(value => +$/));
+        $/.make(AST::NumberValue.new(
+            value => +$/
+        ));
     }
 
     method string($a) {
