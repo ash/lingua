@@ -90,10 +90,18 @@ class LinguaActions {
     }
 
     multi method assignment($/ where !$<index> && $<value> && !$<string>) {
-        $/.make(AST::ScalarAssignment.new(
-            variable-name => ~$<variable-name>,
-            rhs => $<value>[0].made
-        ));
+        if $<value>.elems == 1 {
+            $/.make(AST::ScalarAssignment.new(
+                variable-name => ~$<variable-name>,
+                rhs => $<value>[0].made
+            ));
+        }
+        else {
+            $/.make(AST::ArrayAssignment.new(
+                variable-name => ~$<variable-name>,
+                elements => ($<value>.map: *.made)
+            ));
+        }
     }
 
     multi method assignment($/ where !$<index> && $<value> && $<string>) {
