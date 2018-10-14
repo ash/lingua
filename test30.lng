@@ -8,3 +8,6 @@ say b[1];
 my c{} = "a": 1, "b": 2;
 say c;
 say c{"a"};
+
+my s = "a";
+say c{s};

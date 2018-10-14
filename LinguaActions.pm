@@ -133,7 +133,9 @@ class LinguaActions {
     }
 
     multi method hash-index($/ where $<variable-name>) {
-        $/.make(%!var{$<variable-name>});
+        $/.make(AST::Variable.new(
+            variable-name => ~$<variable-name>
+        ));
     }
 
     method function-call($/) {
@@ -159,7 +161,7 @@ class LinguaActions {
     multi method value($/ where $<variable-name> && $<index> && $<index><hash-index>) {
         $/.make(AST::HashItem.new(
             variable-name => ~$<variable-name>,
-            key => $<index>.made.value
+            key => $<index>.made
         ));
     }
 

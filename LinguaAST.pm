@@ -75,7 +75,7 @@ class AST::ArrayItem is ASTNode {
 
 class AST::HashItem is ASTNode {
     has Str $.variable-name;
-    has Str $.key;
+    has ASTNode $.key;
 }
 
 class AST::FunctionCall is ASTNode {
