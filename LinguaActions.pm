@@ -204,9 +204,7 @@ class LinguaActions {
     }
 
     multi method expr($/ where $<expr> && !$<op>) {
-        $/.make(AST::NumberValue.new(
-            value => $<expr>[0].made
-        ));
+        $/.make($<expr>[0].made);
     }
 
     multi method expr($/ where $<expr> && $<op>) {
