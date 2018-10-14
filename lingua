@@ -3,6 +3,7 @@
 use lib '.';
 use LinguaGrammar;
 use LinguaActions;
+use LinguaEvaluator;
 
 error('Usage: ./lingua <filename>') unless @*ARGS.elems;
 
@@ -10,8 +11,11 @@ my $filename = @*ARGS[0];
 error("Error: File $filename not found") unless $filename.IO.f;
 
 my $code = $filename.IO.slurp();
-my $result = Lingua.parse($code, :actions(LinguaActions.new));
-say $result ?? 'OK' !! error('Error: parse failed');
+my $ast = Lingua.parse($code, :actions(LinguaActions.new));
+say $ast ?? 'OK' !! error('Error: parse failed');
+
+my $eval = LinguaEvaluator.new();
+$eval.eval($ast.made);
 
 sub error($message) {
     note $message;
