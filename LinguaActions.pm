@@ -9,7 +9,6 @@ class LinguaActions {
             $top.statements.push($statement.made);
         }
 
-        dd $top;
         $/.make($top);
     }
 
