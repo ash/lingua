@@ -1,2 +1,5 @@
 my a = 7;
 say a;
+
+say 8;
+say "nine";

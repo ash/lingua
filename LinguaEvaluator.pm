@@ -23,4 +23,12 @@ class LinguaEvaluator {
     multi method call-function('say', AST::Variable $value) {
         say %!var{$value.variable-name};
     }
+
+    multi method call-function('say', AST::NumberValue $value) {
+        say $value.value;
+    }
+
+    multi method call-function('say', AST::StringValue $value) {
+        say $value.value;
+    }
 }
