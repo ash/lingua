@@ -3,3 +3,12 @@ say a;
 
 say 8;
 say "nine";
+
+a = 10;
+say a;
+
+my data[];
+my relation{};
+
+data[3] = 4;
+relation{"red"} = "#FF0000";
