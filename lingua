@@ -11,7 +11,7 @@ my $filename = @*ARGS[0];
 error("Error: File $filename not found") unless $filename.IO.f;
 
 my $code = $filename.IO.slurp();
-my $ast = Lingua.parse($code, :actions(LinguaActions.new));
+my $ast = Lingua.parse($code, :actions(LinguaActions));
 say $ast ?? 'OK' !! error('Error: parse failed');
 
 my $eval = LinguaEvaluator.new();

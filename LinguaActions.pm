@@ -1,8 +1,6 @@
 use LinguaAST;
 
 class LinguaActions {
-    has %!var;
-
     method TOP($/) {
         my $top = AST::TOP.new;
         for $<statement> -> $statement {
@@ -225,17 +223,7 @@ class LinguaActions {
         ));
     }
 
-    method string($a) {
-        my $s = ~$a[0];
-
-        for $a[0]<variable-name>.reverse -> $var {
-            $s.substr-rw($var.from - $a.from - 2, $var.pos - $var.from + 1) = %!var{$var};
-        }
-
-        $s ~~ s:g/\\\"/"/;
-        $s ~~ s:g/\\\\/\\/;
-        $s ~~ s:g/\\\$/\$/;
-
-        $a.make(AST::StringValue.new(value => $s));
+    method string($/) {
+        $/.make(AST::StringValue.new(value => ~$/[0]));
     }
 }
