@@ -38,6 +38,17 @@ class LinguaEvaluator {
         %!var{$node.variable-name}{$node.key} = $node.rhs.value;
     }
 
+    multi method eval-node(AST::ArrayAssignment $node) {
+        %!var{$node.variable-name} = ($node.elements.map: *.value).Array;
+    }
+
+    multi method eval-node(AST::HashAssignment $node) {
+        %!var{$node.variable-name} = Hash.new;
+        while $node.keys {
+            %!var{$node.variable-name}.{$node.keys.shift} = $node.values.shift.value;
+        }
+    }
+
     # Functions
 
     multi method eval-node(AST::FunctionCall $node) {

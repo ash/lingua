@@ -11,4 +11,10 @@ my data[];
 my relation{};
 
 data[3] = 4;
-relation{"red"} = "#FF0000";
+color{"red"} = "#FF0000";
+
+data = 7, 8, 9;
+color = "white": "#FFFFFF", "black": "#000000";
+
+my array[] = 1, 3, 4;
+my h{} = "a": 1, "b": 2;
