@@ -16,6 +16,7 @@ class AST::NumberValue is ASTNode {
 
 class AST::StringValue is ASTNode {
     has Str $.value;
+    has @.interpolations;
 }
 
 class AST::Null is ASTNode {

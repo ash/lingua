@@ -224,6 +224,18 @@ class LinguaActions {
     }
 
     method string($/) {
-        $/.make(AST::StringValue.new(value => ~$/[0]));
+        my $match = $/[0];
+
+        my @interpolations;
+        push @interpolations, [
+                .Str,
+                .from - $match.from - 1,
+                .pos - .from + 1,
+            ] for $match<variable-name>;
+
+        $/.make(AST::StringValue.new(
+            value => ~$match,
+            interpolations => @interpolations
+        ));
     }
 }

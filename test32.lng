@@ -1,0 +1,7 @@
+my alpha = 54;
+say "The value of α is $alpha.";
+
+my beta;
+beta = 200;
+alpha = 100;
+say "And now it is $alpha (β = $beta).";
