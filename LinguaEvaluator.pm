@@ -1,7 +1,7 @@
 use LinguaAST;
 
 class LinguaEvaluator {
-    has %!var;
+    has %.var;
 
     method eval(ASTNode $top) {
         dd $top;
@@ -65,21 +65,5 @@ class LinguaEvaluator {
 
     multi method call-function('say', AST::StringValue $value) {
         say self.interpolate($value);
-    }
-
-    # Misc
-
-    method interpolate(AST::StringValue $str) {
-        my $s = $str.value;
-
-        for $str.interpolations.reverse -> $var {
-            $s.substr-rw($var[1], $var[2]) = %!var{$var[0]};
-        }
-
-        $s ~~ s:g/\\\"/"/;
-        $s ~~ s:g/\\\\/\\/;
-        $s ~~ s:g/\\\$/\$/;
-
-        return $s;
     }
 }

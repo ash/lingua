@@ -1,4 +1,4 @@
-class ASTNode {    
+class ASTNode {
 }
 
 class AST::TOP is ASTNode {
@@ -17,6 +17,21 @@ class AST::NumberValue is ASTNode {
 class AST::StringValue is ASTNode {
     has Str $.value;
     has @.interpolations;
+    has $.evaluator;
+
+    method value() {
+        my $s = $!value;
+
+        for @!interpolations.reverse -> $var {
+            $s.substr-rw($var[1], $var[2]) = $.evaluator.var{$var[0]};
+        }
+
+        $s ~~ s:g/\\\"/"/;
+        $s ~~ s:g/\\\\/\\/;
+        $s ~~ s:g/\\\$/\$/;
+
+        return $s;
+    }
 }
 
 class AST::Null is ASTNode {

@@ -1,6 +1,9 @@
 use LinguaAST;
+use LinguaEvaluator;
 
 class LinguaActions {
+    has LinguaEvaluator $.evaluator;
+
     method TOP($/) {
         my $top = AST::TOP.new;
         for $<statement> -> $statement {
@@ -234,6 +237,7 @@ class LinguaActions {
             ] for $match<variable-name>;
 
         $/.make(AST::StringValue.new(
+            evaluator => $!evaluator,
             value => ~$match,
             interpolations => @interpolations
         ));

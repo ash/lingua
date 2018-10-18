@@ -1,0 +1,6 @@
+my date = 18;
+my month = "October";
+my year = 2018;
+
+my date = "$date $month $year";
+say date;
