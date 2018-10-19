@@ -59,6 +59,19 @@ class LinguaEvaluator {
         say %!var{$value.variable-name};
     }
 
+    multi method call-function('say', AST::Variable $value where %!var{$value.variable-name} ~~ Array) {
+        say %!var{$value.variable-name}.join(', ');
+    }
+
+    multi method call-function('say', AST::Variable $value where %!var{$value.variable-name} ~~ Hash) {
+        my $data = %!var{$value.variable-name};
+        my @str;
+        for $data.keys.sort -> $key {
+            @str.push("$key: $data{$key}");
+        }
+        say @str.join(', ');
+    }
+
     multi method call-function('say', ASTNode $value) {
         say $value.value;
     }
