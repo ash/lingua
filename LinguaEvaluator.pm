@@ -63,6 +63,11 @@ class LinguaEvaluator {
         say %!var{$value.variable-name}.join(', ');
     }
 
+    multi method call-function('say', AST::ArrayItem $item) {
+        say %!var{$item.variable-name}[$item.index.value];
+    }
+
+
     multi method call-function('say', AST::Variable $value where %!var{$value.variable-name} ~~ Hash) {
         my $data = %!var{$value.variable-name};
         my @str;
@@ -70,6 +75,10 @@ class LinguaEvaluator {
             @str.push("$key: $data{$key}");
         }
         say @str.join(', ');
+    }
+
+    multi method call-function('say', AST::HashItem $item) {
+        say %!var{$item.variable-name}{$item.key.value};
     }
 
     multi method call-function('say', ASTNode $value) {
