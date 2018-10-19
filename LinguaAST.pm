@@ -82,6 +82,36 @@ class AST::HashAssignment is ASTNode {
 class AST::MathOperations is ASTNode {
     has Str @.operators;
     has ASTNode @.operands;
+
+    multi sub operation('+', $a, $b) {
+        $a + $b
+    }
+
+    multi sub operation('-', $a, $b) {
+        $a - $b
+    }
+
+    multi sub operation('*', $a, $b) {
+        $a * $b
+    }
+
+    multi sub operation('/', $a, $b) {
+        $a / $b
+    }
+
+    multi sub operation('**', $a, $b) {
+        $a ** $b
+    }
+
+    method value() {
+        my $result = @.operands.shift.value;
+
+        while @.operands {
+            $result = operation(@.operators.shift, $result, @.operands.shift.value);
+        }
+
+        return $result;
+    }
 }
 
 class AST::ArrayItem is ASTNode {
