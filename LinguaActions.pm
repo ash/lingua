@@ -66,19 +66,11 @@ class LinguaActions {
     }
 
     multi method assignment($/ where $<index> && $<index><array-index>) {
-        if $<value>.elems == 1 {
-            $/.make(AST::ScalarAssignment.new(
-                variable-name => ~$<variable-name>,
-                rhs => $<value>[0].made
-            ));
-        }
-        else {
-            $/.make(AST::ArrayItemAssignment.new(
-                variable-name => ~$<variable-name>,
-                index => $<index>.made,
-                rhs => $<value>[0].made
-            ));
-        }
+        $/.make(AST::ArrayItemAssignment.new(
+            variable-name => ~$<variable-name>,
+            index => $<index>.made.value,
+            rhs => $<value>[0].made
+        ));
     }
 
     multi method assignment($/ where $<index> && $<index><hash-index>) {
