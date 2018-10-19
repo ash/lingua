@@ -59,11 +59,7 @@ class LinguaEvaluator {
         say %!var{$value.variable-name};
     }
 
-    multi method call-function('say', AST::NumberValue $value) {
+    multi method call-function('say', ASTNode $value) {
         say $value.value;
-    }
-
-    multi method call-function('say', AST::StringValue $value) {
-        say self.interpolate($value);
     }
 }
