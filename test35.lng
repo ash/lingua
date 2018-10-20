@@ -10,3 +10,11 @@ say b;
 
 say a[1];
 say b{"a"};
+
+
+my index = 1;
+say index;
+say a[index];
+
+my key = "a";
+say b{key};

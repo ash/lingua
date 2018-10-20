@@ -116,7 +116,8 @@ class LinguaActions {
 
     multi method array-index($/ where $<variable-name>) {
         $/.make(AST::Variable.new(
-            variable-name => ~$<variable-name>
+            variable-name => ~$<variable-name>,
+            evaluator => $!evaluator,
         ));
     }
 
@@ -126,7 +127,8 @@ class LinguaActions {
 
     multi method hash-index($/ where $<variable-name>) {
         $/.make(AST::Variable.new(
-            variable-name => ~$<variable-name>
+            variable-name => ~$<variable-name>,
+            evaluator => $!evaluator,
         ));
     }
 
@@ -139,7 +141,8 @@ class LinguaActions {
 
     multi method value($/ where $<variable-name> && !$<index>) {
         $/.make(AST::Variable.new(
-            variable-name => ~$<variable-name>
+            variable-name => ~$<variable-name>,
+            evaluator => $!evaluator,
         ));
     }
 
@@ -179,7 +182,8 @@ class LinguaActions {
 
     multi method expr($/ where $<variable-name> && !$<index>) {
         $/.make(AST::Variable.new(
-            variable-name => ~$<variable-name>
+            variable-name => ~$<variable-name>,
+            evaluator => $!evaluator,
         ));
     }
 

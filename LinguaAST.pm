@@ -39,6 +39,11 @@ class AST::Null is ASTNode {
 
 class AST::Variable is ASTNode {
     has Str $.variable-name;
+    has $.evaluator;
+
+    method value() {
+        return $.evaluator.var{$.variable-name};
+    }
 }
 
 class AST::ArrayDeclaration is ASTNode {

@@ -1,0 +1,8 @@
+my a[] = 10, 20;
+my b{} = "A": "ey", "B": "bee";
+
+my index = 1;
+say a[index]; # prints 20
+
+my key = "A";
+say b{key}; # prints "ey"

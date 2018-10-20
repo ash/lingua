@@ -67,7 +67,6 @@ class LinguaEvaluator {
         say %!var{$item.variable-name}[$item.index.value];
     }
 
-
     multi method call-function('say', AST::Variable $value where %!var{$value.variable-name} ~~ Hash) {
         my $data = %!var{$value.variable-name};
         my @str;
