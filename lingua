@@ -17,7 +17,7 @@ my $actions = LinguaActions.new(:evaluator($evaluator));
 my $ast = Lingua.parse($code, :actions($actions));
 
 if $ast {
-    say 'OK';
+    note 'OK';
     $evaluator.eval($ast.made);
 }
 else {
