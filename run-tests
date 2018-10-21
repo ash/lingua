@@ -2,7 +2,7 @@
 
 my @errors;
 
-test-file($_) for dir('t');
+test-file($_) for dir('t').sort;
 
 say '-' x 10, ' Summary ', '-' x 10;
 if @errors {
