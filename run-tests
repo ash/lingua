@@ -12,7 +12,7 @@ if @errors {
     say "\t$_" for @errors;
 }
 else {
-    say "All test successfully run.";
+    say "All test successfully ran.";
 }
 
 sub test-file($file) {
