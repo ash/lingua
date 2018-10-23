@@ -4,7 +4,7 @@ my @errors;
 
 test-file($_) for dir('t').sort;
 
-say '-' x 10, ' Summary ', '-' x 10;
+say '-' x 9, ' Summary ', '-' x 9;
 if @errors {
     my $n = @errors.elems;
     my $s = $n > 1 ?? 's' !! '';
@@ -12,7 +12,7 @@ if @errors {
     say "\t$_" for @errors;
 }
 else {
-    say "All test successfully ran.";
+    say "All tests successfully ran.";
 }
 
 sub test-file($file) {
