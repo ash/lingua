@@ -9,10 +9,16 @@ grammar Lingua is CommentableLanguage does Number {
         ]*
     }
 
+    rule condition {
+        'if' <value>
+    }
+
     rule statement {
-        | <statement=variable-declaration>
-        | <statement=assignment>
-        | <statement=function-call>
+        <condition> ? [
+            | <statement=variable-declaration>
+            | <statement=assignment>
+            | <statement=function-call>
+        ]
     }
 
     rule variable-declaration {

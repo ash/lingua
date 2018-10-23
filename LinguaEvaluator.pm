@@ -11,6 +11,14 @@ class LinguaEvaluator {
         dd %!var;
     }
 
+    # Control flow
+
+    multi method eval-node(AST::Condition $node) {
+        if $node.value.value {
+            self.eval-node($node.statement);
+        }
+    }
+
     # Variables
 
     multi method eval-node(AST::ScalarDeclaration $node) {

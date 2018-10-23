@@ -1,0 +1,3 @@
+my flag = 42;
+if flag say "Depends";
+say "Always";

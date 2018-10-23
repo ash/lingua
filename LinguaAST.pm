@@ -143,3 +143,8 @@ class AST::FunctionCall is ASTNode {
     has Str $.function-name;
     has ASTNode $.value;
 }
+
+class AST::Condition is ASTNode {
+    has ASTNode $.value;
+    has ASTNode $.statement;
+}
