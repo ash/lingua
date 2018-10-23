@@ -122,11 +122,21 @@ class AST::MathOperations is ASTNode {
 class AST::ArrayItem is ASTNode {
     has Str $.variable-name;
     has ASTNode $.index;
+    has $.evaluator;
+
+    method value() {
+        return $.evaluator.var{$!variable-name}[$!index.value];
+    }
 }
 
 class AST::HashItem is ASTNode {
     has Str $.variable-name;
     has ASTNode $.key;
+    has $.evaluator;
+
+    method value() {
+        return $.evaluator.var{$!variable-name}{$!key.value};
+    }
 }
 
 class AST::FunctionCall is ASTNode {
