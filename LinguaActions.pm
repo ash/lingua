@@ -13,15 +13,16 @@ class LinguaActions {
         $/.make($top);
     }
 
-    multi method statement($/ where !$<condition>) {
-        $/.make($<statement>.made);
+    method conditional-statement($/) {
+        $/.make(AST::Condition.new(
+            value => $/<value>.made,
+            statement => $/<statement>[0].made,
+            antistatement => $/<statement>[1] ?? $/<statement>[1].made !! AST::Null,
+        ));
     }
 
-    multi method statement($/ where $<condition>) {
-        $/.make(AST::Condition.new(
-            value => $/<condition><value>.made,
-            statement => $/<statement>.made,
-        ));
+    method statement($/) {
+        $/.make($<statement>.made);
     }
 
     multi method variable-declaration($/) {

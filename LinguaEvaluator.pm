@@ -17,6 +17,12 @@ class LinguaEvaluator {
         if $node.value.value {
             self.eval-node($node.statement);
         }
+        else {
+            self.eval-node($node.antistatement);
+        }
+    }
+
+    multi method eval-node(AST::Null) {
     }
 
     # Variables

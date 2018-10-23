@@ -5,20 +5,22 @@ grammar Lingua is CommentableLanguage does Number {
     rule TOP {
         [
             | <one-line-comment>
+            | <statement=conditional-statement> ';'
             | <statement> ';'
         ]*
     }
 
-    rule condition {
-        'if' <value>
+    rule conditional-statement {
+        'if' <value> <statement>
+        [
+            'else' <statement>
+        ]?
     }
 
     rule statement {
-        <condition> ? [
-            | <statement=variable-declaration>
-            | <statement=assignment>
-            | <statement=function-call>
-        ]
+        | <statement=variable-declaration>
+        | <statement=assignment>
+        | <statement=function-call>
     }
 
     rule variable-declaration {

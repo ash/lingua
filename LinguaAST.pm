@@ -147,4 +147,5 @@ class AST::FunctionCall is ASTNode {
 class AST::Condition is ASTNode {
     has ASTNode $.value;
     has ASTNode $.statement;
+    has ASTNode $.antistatement;
 }
