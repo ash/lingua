@@ -63,7 +63,11 @@ class LinguaEvaluator {
         say %!var{$value.variable-name}.join(', ');
     }
 
-    multi method call-function('say', AST::ArrayItem $item) {
+    multi method call-function('say', AST::ArrayItem $item where %!var{$item.variable-name} ~~ Str) {
+        say %!var{$item.variable-name}.substr($item.index.value, 1);
+    }
+
+    multi method call-function('say', AST::ArrayItem $item where %!var{$item.variable-name} ~~ Array) {
         say %!var{$item.variable-name}[$item.index.value];
     }
 
