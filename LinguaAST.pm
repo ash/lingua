@@ -149,3 +149,8 @@ class AST::Condition is ASTNode {
     has ASTNode $.statement;
     has ASTNode $.antistatement;
 }
+
+class AST::Loop is ASTNode {
+    has ASTNode $.variable;
+    has ASTNode $.statement;
+}

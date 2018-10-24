@@ -21,6 +21,15 @@ class LinguaActions {
         ));
     }
 
+    method loopped-statement($/) {
+        $/.make(AST::Loop.new(
+            variable => AST::Variable.new(
+                variable-name => ~$/<variable-name>
+            ),
+            statement => $/<statement>.made,
+        ));
+    }
+
     method statement($/) {
         $/.make($<statement>.made);
     }

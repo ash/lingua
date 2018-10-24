@@ -22,6 +22,13 @@ class LinguaEvaluator {
         }
     }
 
+    multi method eval-node(AST::Loop $node) {
+        while %!var{$node.variable.variable-name} > 0 {
+            self.eval-node($node.statement);
+            %!var{$node.variable.variable-name}--;
+        }
+    }
+
     multi method eval-node(AST::Null) {
     }
 

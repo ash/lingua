@@ -6,6 +6,7 @@ grammar Lingua is CommentableLanguage does Number {
         [
             | <one-line-comment>
             | <statement=conditional-statement> ';'
+            | <statement=loopped-statement> ';'
             | <statement> ';'
         ]*
     }
@@ -15,6 +16,10 @@ grammar Lingua is CommentableLanguage does Number {
         [
             'else' <statement>
         ]?
+    }
+
+    rule loopped-statement {
+        'while' <variable-name> <statement>
     }
 
     rule statement {
