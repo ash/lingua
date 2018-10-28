@@ -16,8 +16,8 @@ class LinguaActions {
     method conditional-statement($/) {
         $/.make(AST::Condition.new(
             value => $/<value>.made,
-            statement => $/<statement>[0].made,
-            antistatement => $/<statement>[1] ?? $/<statement>[1].made !! AST::Null,
+            statement => $/<block>[0]<statement>[0].made,
+            antistatement => $/<block>[1] ?? $/<block>[1]<statement>[0].made !! AST::Null,
         ));
     }
 
@@ -26,7 +26,7 @@ class LinguaActions {
             variable => AST::Variable.new(
                 variable-name => ~$/<variable-name>
             ),
-            statement => $/<statement>.made,
+            statement => $/<block><statement>[0].made,
         ));
     }
 
@@ -217,7 +217,7 @@ class LinguaActions {
     multi method expr($/ where $<variable-name> && $<index> && $<index><hash-index>) {
         $/.make(AST::HashItem.new(
             variable-name => ~$<variable-name>,
-            key => $<index>.made.value,
+            key => $<index>.made,
             evaluator => $!evaluator,
         ));
     }
