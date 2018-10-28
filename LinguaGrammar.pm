@@ -5,21 +5,29 @@ grammar Lingua is CommentableLanguage does Number {
     rule TOP {
         [
             | <one-line-comment>
-            | <statement=conditional-statement> ';'
-            | <statement=loopped-statement> ';'
+            | <statement=conditional-statement>
+            | <statement=loopped-statement>
             | <statement> ';'
         ]*
     }
 
     rule conditional-statement {
-        'if' <value> <statement>
-        [
-            'else' <statement>
-        ]?
+        | 'if' <value> <block()> 'else' <block(';')>
+        | 'if' <value> <block(';')>
     }
 
     rule loopped-statement {
-        'while' <variable-name> <statement>
+        'while' <variable-name> <block(';')>
+    }
+
+    multi rule block() {
+        | '{' ~ '}' <statement>* %% ';'
+        | <statement>
+    }
+
+    multi rule block(';') {
+        | '{' ~ '}' <statement>* %% ';'
+        | <statement> ';'
     }
 
     rule statement {

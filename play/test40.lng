@@ -1,0 +1,19 @@
+#my n = 5;
+#while n 
+#    say n;
+
+my c = 0;
+if c {
+    say "c = $c";
+    say "IF clause";
+}
+else {
+    say "c = $c";
+    say "ELSE clause";
+}
+
+my n = 5;
+while n {
+    say n;
+    say 2 * n;
+}
