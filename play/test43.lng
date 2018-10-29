@@ -1,0 +1,10 @@
+my v = 0;
+
+if v say "v"; # v
+if v {
+    say 2;
+}
+else {
+    say "else";        
+}
+# m

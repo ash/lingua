@@ -16,8 +16,8 @@ class LinguaActions {
     method conditional-statement($/) {
         $/.make(AST::Condition.new(
             value => $/<value>.made,
-            statement => $/<block>[0]<statement>[0].made,
-            antistatement => $/<block>[1] ?? $/<block>[1]<statement>[0].made !! AST::Null,
+            statements => ($/<block>[0]<statement>.map: *.made),
+            antistatements => $/<block>[1] ?? ($/<block>[1]<statement>.map: *.made) !! (AST::Null),
         ));
     }
 
@@ -26,7 +26,7 @@ class LinguaActions {
             variable => AST::Variable.new(
                 variable-name => ~$/<variable-name>
             ),
-            statement => $/<block><statement>[0].made,
+            statements => ($/<block><statement>.map: *.made),
         ));
     }
 

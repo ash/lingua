@@ -21,13 +21,15 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     multi rule block() {
-        | '{' ~ '}' <statement>* %% ';'
+        | '{' ~ '}' <statement> * %% ';'
         | <statement>
+        
     }
 
     multi rule block(';') {
         | '{' ~ '}' <statement>* %% ';'
         | <statement> ';'
+        
     }
 
     rule statement {
@@ -84,7 +86,6 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule value {
-        | <variable-name> <index>?
         | <expression>
         | <string>
     }

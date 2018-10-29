@@ -15,16 +15,16 @@ class LinguaEvaluator {
 
     multi method eval-node(AST::Condition $node) {
         if $node.value.value {
-            self.eval-node($node.statement);
+            self.eval-node($_) for $node.statements;
         }
         else {
-            self.eval-node($node.antistatement);
+            self.eval-node($_) for $node.antistatements;
         }
     }
 
     multi method eval-node(AST::Loop $node) {
         while %!var{$node.variable.variable-name} > 0 {
-            self.eval-node($node.statement);
+            self.eval-node($_) for $node.statements;
             %!var{$node.variable.variable-name}--;
         }
     }
@@ -65,8 +65,8 @@ class LinguaEvaluator {
 
     multi method eval-node(AST::HashAssignment $node) {
         %!var{$node.variable-name} = Hash.new;
-        while $node.keys {
-            %!var{$node.variable-name}.{$node.keys.shift} = $node.values.shift.value;
+        for 0 .. $node.keys.elems - 1 -> $i {
+            %!var{$node.variable-name}.{$node.keys[$i]} = $node.values[$i].value;
         }
     }
 

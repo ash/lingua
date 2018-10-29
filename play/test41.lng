@@ -1,0 +1,5 @@
+my n = 10;
+
+my m;
+m = n * n;
+say m;

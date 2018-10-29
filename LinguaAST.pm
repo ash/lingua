@@ -109,10 +109,10 @@ class AST::MathOperations is ASTNode {
     }
 
     method value() {
-        my $result = @.operands.shift.value;
+        my $result = @.operands[0].value;
 
-        while @.operands {
-            $result = operation(@.operators.shift, $result, @.operands.shift.value);
+        for 1 .. @.operands.elems - 1 -> $i {
+            $result = operation(@.operators[$i - 1], $result, @.operands[$i].value);
         }
 
         return $result;
@@ -146,11 +146,11 @@ class AST::FunctionCall is ASTNode {
 
 class AST::Condition is ASTNode {
     has ASTNode $.value;
-    has ASTNode $.statement;
-    has ASTNode $.antistatement;
+    has ASTNode @.statements;
+    has ASTNode @.antistatements;
 }
 
 class AST::Loop is ASTNode {
     has ASTNode $.variable;
-    has ASTNode $.statement;
+    has ASTNode @.statements;
 }
