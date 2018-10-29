@@ -186,3 +186,8 @@ class AST::Loop is ASTNode {
     has ASTNode $.variable;
     has ASTNode @.statements;
 }
+
+class AST::While is ASTNode {
+    has ASTNode $.value;
+    has ASTNode @.statements;
+}

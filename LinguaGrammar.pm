@@ -7,6 +7,7 @@ grammar Lingua is CommentableLanguage does Number {
             | <one-line-comment>
             | <statement=conditional-statement>
             | <statement=loopped-statement>
+            | <statement=while-statement>
             | <statement> ';'
         ]*
     }
@@ -18,6 +19,10 @@ grammar Lingua is CommentableLanguage does Number {
 
     rule loopped-statement {
         'loop' <variable-name> <block(';')>
+    }
+
+    rule while-statement {
+        'while' <value> <block(';')>
     }
 
     multi rule block() {

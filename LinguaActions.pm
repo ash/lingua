@@ -30,6 +30,13 @@ class LinguaActions {
         ));
     }
 
+    method while-statement($/) {
+        $/.make(AST::While.new(
+            value => $/<value>.made,
+            statements => ($/<block><statement>.map: *.made),
+        ));
+    }
+
     method statement($/) {
         $/.make($<statement>.made);
     }
