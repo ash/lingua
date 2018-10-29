@@ -8,3 +8,7 @@ while n <= 5 {
 ## 3
 ## 4
 ## 5
+
+my k = 1;
+while k < 10 k = k + 1;
+say k; ## 10
