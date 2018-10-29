@@ -99,14 +99,25 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     multi token op(1) {
-        '+' | '-'
+        | '|'
+        | '<' | '>'
+        | '<=' | '>='
+        | '==' | '!='
     }
 
     multi token op(2) {
-        '*' | '/'
+        '&'
     }
 
     multi token op(3) {
+        '+' | '-'
+    }
+
+    multi token op(4) {
+        '*' | '/'
+    }
+
+    multi token op(5) {
         '**'
     }
 
@@ -118,7 +129,7 @@ grammar Lingua is CommentableLanguage does Number {
         <expr($n + 1)>+ %% <op($n)>
     }
 
-    multi rule expr(4) {
+    multi rule expr(6) {
         | <number>
         | <variable-name> <index>?
         | '(' <expression> ')'

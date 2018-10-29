@@ -88,6 +88,38 @@ class AST::MathOperations is ASTNode {
     has Str @.operators;
     has ASTNode @.operands;
 
+    multi sub operation('|', $a, $b) {
+        $a || $b
+    }
+
+    multi sub operation('&', $a, $b) {
+        $a && $b
+    }
+
+    multi sub operation('<', $a, $b) {
+        $a < $b ?? 1 !! 0
+    }
+
+    multi sub operation('<=', $a, $b) {
+        $a <= $b
+    }
+
+    multi sub operation('>', $a, $b) {
+        $a > $b
+    }
+
+    multi sub operation('>=', $a, $b) {
+        $a >= $b
+    }
+
+    multi sub operation('!=', $a, $b) {
+        $a != $b
+    }
+
+    multi sub operation('==', $a, $b) {
+        $a == $b
+    }
+
     multi sub operation('+', $a, $b) {
         $a + $b
     }
