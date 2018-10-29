@@ -1,5 +1,5 @@
 my n = 5;
-while n 
+loop n 
     say n;
 
 my c = 0;
@@ -13,7 +13,7 @@ else {
 }
 
 my n = 5;
-while n {
+loop n {
     say n;
     say n * 2;
 }

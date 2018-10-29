@@ -1,2 +1,2 @@
 my n = 5;
-while n say n;
+loop n say n;

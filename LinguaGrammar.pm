@@ -17,7 +17,7 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     rule loopped-statement {
-        'while' <variable-name> <block(';')>
+        'loop' <variable-name> <block(';')>
     }
 
     multi rule block() {
