@@ -1,4 +1,5 @@
 use LinguaAST;
+use LinguaFunctions;
 
 class LinguaEvaluator {
     has %.var;
@@ -31,7 +32,7 @@ class LinguaEvaluator {
 
     multi method eval-node(AST::While $node) {
         while $node.value.value {
-            self.eval-node($_) for $node.statements;            
+            self.eval-node($_) for $node.statements;
         }
     }
 
@@ -79,39 +80,6 @@ class LinguaEvaluator {
     # Functions
 
     multi method eval-node(AST::FunctionCall $node) {
-        self.call-function($node.function-name, $node.value);
-    }
-
-    multi method call-function('say', AST::Variable $value) {
-        say %!var{$value.variable-name};
-    }
-
-    multi method call-function('say', AST::Variable $value where %!var{$value.variable-name} ~~ Array) {
-        say %!var{$value.variable-name}.join(', ');
-    }
-
-    multi method call-function('say', AST::ArrayItem $item where %!var{$item.variable-name} ~~ Str) {
-        say %!var{$item.variable-name}.substr($item.index.value, 1);
-    }
-
-    multi method call-function('say', AST::ArrayItem $item where %!var{$item.variable-name} ~~ Array) {
-        say %!var{$item.variable-name}[$item.index.value];
-    }
-
-    multi method call-function('say', AST::Variable $value where %!var{$value.variable-name} ~~ Hash) {
-        my $data = %!var{$value.variable-name};
-        my @str;
-        for $data.keys.sort -> $key {
-            @str.push("$key: $data{$key}");
-        }
-        say @str.join(', ');
-    }
-
-    multi method call-function('say', AST::HashItem $item) {
-        say %!var{$item.variable-name}{$item.key.value};
-    }
-
-    multi method call-function('say', ASTNode $value) {
-        say $value.value;
+        LinguaFunctions.call-function($node.function-name, %!var, $node.value);
     }
 }
