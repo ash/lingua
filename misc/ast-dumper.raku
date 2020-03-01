@@ -1,7 +1,7 @@
-#!/usr/bin/env perl6
+#!/usr/bin/env raku
 
 # Run it as:
-# ./lingua test27.lng 2>&1 | ./ast-dumper.pl
+# ./lingua test27.lng 2>&1 | ./ast-dumper.raku
 
 my @ast = $*IN.lines();
 my $ast = @ast[0];
