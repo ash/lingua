@@ -2,8 +2,6 @@
 
 use Test;
 
-my @errors;
-
 test-file($_) for dir('t').sort;
 
 done-testing;
@@ -13,7 +11,8 @@ sub test-file($file) {
 
     my $proc = run('./lingua', $path, :out, :err);
 
-    is(expected($path), $proc.out.slurp, $path);
+    is(expected($path), $proc.out.slurp, $path)
+        or say $proc.err.slurp;
 }
 
 sub expected($path) {
