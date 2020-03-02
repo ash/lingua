@@ -1,50 +1,21 @@
 #!/usr/bin/env raku
 
+use Test;
+
 my @errors;
 
 test-file($_) for dir('t').sort;
 
-say '-' x 9, ' Summary ', '-' x 9;
-if @errors {
-    my $n = @errors.elems;
-    my $s = $n > 1 ?? 's' !! '';
-    say "$n test file$s failed:";
-    say "\t$_" for @errors;
-}
-else {
-    say "All tests successfully ran.";
-}
+done-testing;
 
 sub test-file($file) {
     my $path = $file.path;
-    print "$path... ";
 
     my $proc = run('./lingua', $path, :out, :err);
     my $out = $proc.out.slurp;
-    my $err = $proc.err.slurp;
 
-    my $ok = 1;
-    if $err ~~ /^Error/ {
-        $ok = 0;
-    }
-    else {
-        my $expected = expected($path);
-        if $expected ne $out {
-            say "\nGOT: $out";
-            say "EXPECTED: $expected";
-            $ok = 0;
-        }
-    }
-
-    if $ok {
-        say "\e[32mOK\e[39m";
-    }
-    else {
-        say "\e[31mFAIL\e[39m";
-        $err ~~ s:g/^^/# /;
-        say $err;
-        push @errors, $path;
-    }
+    my $expected = expected($path);
+    is($expected, $out, $path);
 }
 
 sub expected($path) {
