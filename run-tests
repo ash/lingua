@@ -12,10 +12,8 @@ sub test-file($file) {
     my $path = $file.path;
 
     my $proc = run('./lingua', $path, :out, :err);
-    my $out = $proc.out.slurp;
 
-    my $expected = expected($path);
-    is($expected, $out, $path);
+    is(expected($path), $proc.out.slurp, $path);
 }
 
 sub expected($path) {
