@@ -108,7 +108,10 @@ my @cases =
     ;
 
 for @cases -> $test {
-    my $result = Calculator.parse($test, :actions(CalculatorActions)).made;
+    my $parse = Calculator.parse($test, :actions(CalculatorActions));
+    next unless isa-ok($parse, Match, "parsed $test");
+
+    my $result = $parse.made;
     my $correct = EVAL($result);
-    is($result, $correct, "$test = $correct");
+    is($result, $correct, "computed $test = $correct");
 }
