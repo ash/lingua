@@ -173,7 +173,13 @@ class AST::HashItem is ASTNode {
 
 class AST::FunctionCall is ASTNode {
     has Str $.function-name;
-    has ASTNode $.value;
+    has ASTNode $.argument;
+
+    method value() {
+        return AST::NumberValue.new(
+            value => 42
+        )
+    }
 }
 
 class AST::Condition is ASTNode {

@@ -1,0 +1,3 @@
+my x;
+x = len "hello";
+say x;

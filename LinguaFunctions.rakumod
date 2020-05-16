@@ -4,6 +4,7 @@ class LinguaFunctions {
     # print and say
 
     multi method call-function(Str $function-name where 'say' | 'print', %var, $node) {
+        say $node.^name;
         print self.gist(%var, $node);
         say '' if $function-name eq 'say';
     }
@@ -44,6 +45,6 @@ class LinguaFunctions {
     # len
 
     multi method call-function('len', %var, ASTNode $node) {
-        say $node.value.chars;
+        
     }
 }

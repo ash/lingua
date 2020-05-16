@@ -1,0 +1,3 @@
+my name = "Anna-Maria";
+len name;
+len "Hello, $name!";

@@ -93,6 +93,7 @@ grammar Lingua is CommentableLanguage does Number {
     rule value {
         | <expression>
         | <string>
+        | <function-call>
     }
 
     token variable-name {
