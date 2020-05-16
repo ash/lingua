@@ -3,7 +3,7 @@ use LinguaAST;
 class LinguaFunctions {
     # print and say
 
-    method call-function(Str $function-name where 'say' | 'print', %var, $node) {
+    multi method call-function(Str $function-name where 'say' | 'print', %var, $node) {
         print self.gist(%var, $node);
         say '' if $function-name eq 'say';
     }
@@ -13,7 +13,7 @@ class LinguaFunctions {
     }
 
     multi method gist(%var, AST::Variable $value where %var{$value.variable-name} ~~ Array) {
-        return %var{$value.variable-name}.join(', ');
+        return %var{$value.variable-name}.join(', '); #'
     }
 
     multi method gist(%var, AST::ArrayItem $item where %var{$item.variable-name} ~~ Str) {
@@ -30,7 +30,7 @@ class LinguaFunctions {
         for $data.keys.sort -> $key {
             @str.push("$key: $data{$key}");
         }
-        return @str.join(', ');
+        return @str.join(', '); #'
     }
 
     multi method gist(%var, AST::HashItem $item) {
@@ -39,5 +39,11 @@ class LinguaFunctions {
 
     multi method gist(%var, ASTNode $value) {
         return $value.value;
+    }
+
+    # len
+
+    multi method call-function('len', %var, ASTNode $node) {
+        say $node.value.chars;
     }
 }
