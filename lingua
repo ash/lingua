@@ -26,5 +26,5 @@ else {
 
 sub error($message) {
     note $message;
-    exit;
+    exit 1;
 }
