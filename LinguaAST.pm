@@ -191,6 +191,16 @@ class AST::Return is ASTNode {
     has ASTNode $.value;
 }
 
+class AST::UserFunctionCall is ASTNode {
+    has Str $.function-name;
+    has ASTNode @.arguments;
+    has $.evaluator;
+
+    method value() {
+        return $.evaluator.call-user-function($!function-name, @!arguments);
+    }
+}
+
 class AST::Condition is ASTNode {
     has ASTNode $.value;
     has ASTNode @.statements;

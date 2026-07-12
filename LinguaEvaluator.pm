@@ -84,6 +84,31 @@ class LinguaEvaluator {
         %!func{$node.function-name} = $node;
     }
 
+    multi method eval-node(AST::UserFunctionCall $node) {
+        $node.value;
+    }
+
+    method call-user-function($function-name, @arguments) {
+        die "Unknown function $function-name"
+            unless %!func{$function-name}:exists;
+
+        my $function = %!func{$function-name};
+        my @values = @arguments.map: *.value;
+
+        my %saved-vars = %!var;
+        %!var = ();
+        for ^$function.parameters.elems -> $i {
+            %!var{$function.parameters[$i]} = @values[$i];
+        }
+
+        my $result = 0;
+        self.eval-node($_) for $function.statements;
+
+        %!var = %saved-vars;
+
+        return $result;
+    }
+
     method call-function($function-name, $argument) {
         return LinguaFunctions.call-function($function-name, %!var, $argument);
     }

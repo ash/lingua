@@ -23,6 +23,10 @@ grammar Lingua is CommentableLanguage does Number {
         'return' <value>
     }
 
+    rule user-function-call {
+        <function-name=variable-name> '(' <value>* %% ',' ')'
+    }
+
     rule conditional-statement {
         | 'if' <value> <block()> 'else' <block(';')>
         | 'if' <value> <block(';')>
@@ -51,6 +55,7 @@ grammar Lingua is CommentableLanguage does Number {
     rule statement {
         | <statement=variable-declaration>
         | <statement=return-statement>
+        | <statement=user-function-call>
         | <statement=assignment>
         | <statement=function-call>
     }
@@ -149,6 +154,7 @@ grammar Lingua is CommentableLanguage does Number {
     multi rule expr(6) {
         | <number>
         | <function-call>
+        | <user-function-call>
         | <variable-name> <index>?
         | '(' <expression> ')'
     }

@@ -27,6 +27,14 @@ class LinguaActions {
         ));
     }
 
+    method user-function-call($/) {
+        $/.make(AST::UserFunctionCall.new(
+            function-name => ~$<function-name>,
+            arguments => ($<value> ?? ($<value>.map: *.made) !! ()),
+            evaluator => $!evaluator,
+        ));
+    }
+
     method conditional-statement($/) {
         $/.make(AST::Condition.new(
             value => $/<value>.made,
@@ -219,6 +227,10 @@ class LinguaActions {
 
     multi method expr($/ where $<function-call>) {
         $/.make($<function-call>.made);
+    }
+
+    multi method expr($/ where $<user-function-call>) {
+        $/.make($<user-function-call>.made);
     }
 
     multi method expr($/ where $<string>) {
