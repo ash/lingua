@@ -15,8 +15,25 @@ class LinguaFunctions {
         return %var{$node.variable-name}.elems;
     }
 
+    multi method call-function('len', %var, ASTNode $node
+        where $node.value ~~ List) {
+        return $node.value.elems;
+    }
+
     multi method call-function('len', %var, ASTNode $node) {
         return $node.value.chars;
+    }
+
+    # keys
+
+    multi method call-function('keys', %var, AST::Variable $node
+        where %var{$node.variable-name} ~~ Hash) {
+        return %var{$node.variable-name}.keys.sort.List;
+    }
+
+    multi method call-function('keys', %var, AST::Variable $node
+        where %var{$node.variable-name} ~~ Array) {
+        return (0 ..^ %var{$node.variable-name}.elems).List;
     }
 
     multi method gist(%var, AST::Variable $value) {
@@ -46,6 +63,10 @@ class LinguaFunctions {
 
     multi method gist(%var, AST::HashItem $item) {
         return %var{$item.variable-name}{$item.key.value};
+    }
+
+    multi method gist(%var, ASTNode $value where $value.value ~~ List) {
+        return $value.value.join(', ');
     }
 
     multi method gist(%var, ASTNode $value) {
