@@ -54,10 +54,18 @@ class LinguaOptimizer {
     }
 
     multi method optimize-node(AST::MathOperations $node) {
-        return AST::MathOperations.new(
+        my @operands = $node.operands.map: { self.optimize-node($_) };
+
+        my $new = AST::MathOperations.new(
             operators => $node.operators,
-            operands => ($node.operands.map: { self.optimize-node($_) }),
+            operands => @operands,
         );
+
+        if all(@operands) ~~ AST::NumberValue {
+            return AST::NumberValue.new(value => $new.value);
+        }
+
+        return $new;
     }
 
     # Nodes with statement lists
