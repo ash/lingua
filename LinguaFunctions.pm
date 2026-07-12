@@ -3,9 +3,15 @@ use LinguaAST;
 class LinguaFunctions {
     # print and say
 
-    method call-function(Str $function-name where 'say' | 'print', %var, $node) {
+    multi method call-function(Str $function-name where 'say' | 'print', %var, $node) {
         print self.gist(%var, $node);
         say '' if $function-name eq 'say';
+    }
+
+    # len
+
+    multi method call-function('len', %var, ASTNode $node) {
+        say $node.value.chars;
     }
 
     multi method gist(%var, AST::Variable $value) {
