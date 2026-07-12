@@ -174,6 +174,11 @@ class AST::HashItem is ASTNode {
 class AST::FunctionCall is ASTNode {
     has Str $.function-name;
     has ASTNode $.argument;
+    has $.evaluator;
+
+    method value() {
+        return $.evaluator.call-function($!function-name, $!argument);
+    }
 }
 
 class AST::Condition is ASTNode {

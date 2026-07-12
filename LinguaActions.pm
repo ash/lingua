@@ -159,7 +159,8 @@ class LinguaActions {
     method function-call($/) {
         $/.make(AST::FunctionCall.new(
             function-name => ~$<function-name>,
-            argument => $<value>.made
+            argument => $<value>.made,
+            evaluator => $!evaluator,
         ));
     }
 
@@ -200,6 +201,10 @@ class LinguaActions {
 
     multi method expr($/ where $<number>) {
         $/.make($<number>.made);
+    }
+
+    multi method expr($/ where $<function-call>) {
+        $/.make($<function-call>.made);
     }
 
     multi method expr($/ where $<string>) {

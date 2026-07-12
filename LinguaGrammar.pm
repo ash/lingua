@@ -136,6 +136,7 @@ grammar Lingua is CommentableLanguage does Number {
 
     multi rule expr(6) {
         | <number>
+        | <function-call>
         | <variable-name> <index>?
         | '(' <expression> ')'
     }

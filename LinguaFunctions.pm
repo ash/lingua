@@ -11,7 +11,7 @@ class LinguaFunctions {
     # len
 
     multi method call-function('len', %var, ASTNode $node) {
-        say $node.value.chars;
+        return $node.value.chars;
     }
 
     multi method gist(%var, AST::Variable $value) {

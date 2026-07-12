@@ -79,7 +79,11 @@ class LinguaEvaluator {
 
     # Functions
 
+    method call-function($function-name, $argument) {
+        return LinguaFunctions.call-function($function-name, %!var, $argument);
+    }
+
     multi method eval-node(AST::FunctionCall $node) {
-        LinguaFunctions.call-function($node.function-name, %!var, $node.argument);
+        self.call-function($node.function-name, $node.argument);
     }
 }
