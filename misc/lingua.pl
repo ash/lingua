@@ -1,4 +1,4 @@
-#!/usr/bin/env /Applications/Rakudo/bin/perl6
+#!/usr/bin/env raku
 
 use Lingua;
 use LinguaActions;
