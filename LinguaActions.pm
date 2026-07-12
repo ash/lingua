@@ -159,7 +159,7 @@ class LinguaActions {
     method function-call($/) {
         $/.make(AST::FunctionCall.new(
             function-name => ~$<function-name>,
-            value => $<value>.made
+            argument => $<value>.made
         ));
     }
 
