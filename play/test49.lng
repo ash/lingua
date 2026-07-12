@@ -1,0 +1,7 @@
+my x = 5;
+my y = x + 0;
+my z = 1 * x;
+my w = x * 0;
+say y;
+say z;
+say w;

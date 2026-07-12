@@ -1,6 +1,10 @@
 use LinguaAST;
 
 class LinguaOptimizer {
+    sub is-number($node, $n) {
+        return $node ~~ AST::NumberValue && $node.value == $n;
+    }
+
     method optimize(AST::TOP $top) {
         return AST::TOP.new(
             statements => self.optimize-list($top.statements),
@@ -63,6 +67,21 @@ class LinguaOptimizer {
 
         if all(@operands) ~~ AST::NumberValue {
             return AST::NumberValue.new(value => $new.value);
+        }
+
+        if @operands.elems == 2 {
+            my ($a, $b) = @operands;
+            my $op = $node.operators[0];
+
+            return $a if $op eq '+' && is-number($b, 0);
+            return $b if $op eq '+' && is-number($a, 0);
+            return $a if $op eq '-' && is-number($b, 0);
+            return $a if $op eq '*' && is-number($b, 1);
+            return $b if $op eq '*' && is-number($a, 1);
+            return $a if $op eq '/' && is-number($b, 1);
+
+            return AST::NumberValue.new(value => 0)
+                if $op eq '*' && (is-number($a, 0) || is-number($b, 0));
         }
 
         return $new;
