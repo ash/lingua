@@ -1,0 +1,10 @@
+if 1 {
+    say "always";
+}
+if 0 {
+    say "never";
+}
+else {
+    say "instead";
+}
+if 2 > 1 say "folded, too";

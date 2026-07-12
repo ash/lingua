@@ -14,7 +14,17 @@ class LinguaOptimizer {
     method optimize-list(@statements) {
         my @result;
         for @statements -> $statement {
-            @result.push(self.optimize-node($statement));
+            my $node = self.optimize-node($statement);
+
+            if $node ~~ AST::Condition && $node.value ~~ AST::NumberValue {
+                my @branch = $node.value.value
+                    ?? $node.statements
+                    !! $node.antistatements;
+                @result.append(@branch.grep({ $_ !~~ AST::Null }));
+            }
+            else {
+                @result.push($node);
+            }
         }
         return @result;
     }
