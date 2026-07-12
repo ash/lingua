@@ -43,6 +43,7 @@ grammar Lingua is CommentableLanguage does Number {
     multi rule block() {
         | '{' ~ '}' [
             [
+                | <one-line-comment>
                 | <statement=conditional-statement>
                 | <statement=loopped-statement>
                 | <statement=while-statement>
@@ -55,6 +56,7 @@ grammar Lingua is CommentableLanguage does Number {
     multi rule block(';') {
         | '{' ~ '}' [
             [
+                | <one-line-comment>
                 | <statement=conditional-statement>
                 | <statement=loopped-statement>
                 | <statement=while-statement>
