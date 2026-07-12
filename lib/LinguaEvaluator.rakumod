@@ -10,11 +10,7 @@ class LinguaEvaluator {
     has %!func;
 
     method eval(ASTNode $top) {
-        dd $top;
-
         self.eval-node($_) for $top.statements;
-
-        dd %!var;
     }
 
     # Control flow

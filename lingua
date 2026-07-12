@@ -6,27 +6,31 @@ use LinguaActions;
 use LinguaOptimizer;
 use LinguaEvaluator;
 
-error('Usage: ./lingua <filename>') unless @*ARGS.elems;
+sub MAIN(
+    Str $filename,        #= a program in Lingua
+    Bool :$ast,           #= dump the syntax tree
+    Bool :$vars,          #= dump the variable storage
+    Bool :$no-optimize,   #= skip the optimisation pass
+) {
+    error("Error: File $filename not found") unless $filename.IO.f;
 
-my $filename = @*ARGS[0];
-error("Error: File $filename not found") unless $filename.IO.f;
+    my $code = $filename.IO.slurp();
 
-my $code = $filename.IO.slurp();
+    my $evaluator = LinguaEvaluator.new();
+    my $actions = LinguaActions.new(:evaluator($evaluator));
+    my $parsed = Lingua.parse($code, :actions($actions));
 
-my $evaluator = LinguaEvaluator.new();
-my $actions = LinguaActions.new(:evaluator($evaluator));
-my $ast = Lingua.parse($code, :actions($actions));
+    error('Error: parse failed') unless $parsed;
 
-if $ast {
-    note 'OK';
-    my $optimizer = LinguaOptimizer.new();
-    $evaluator.eval($optimizer.optimize($ast.made));
-}
-else {
-    error('Error: parse failed');
+    my $tree = $parsed.made;
+    $tree = LinguaOptimizer.new.optimize($tree) unless $no-optimize;
+
+    dd $tree if $ast;
+    $evaluator.eval($tree);
+    dd $evaluator.var if $vars;
 }
 
 sub error($message) {
     note $message;
-    exit;
+    exit 1;
 }
