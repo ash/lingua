@@ -41,15 +41,27 @@ grammar Lingua is CommentableLanguage does Number {
     }
 
     multi rule block() {
-        | '{' ~ '}' <statement> * %% ';'
+        | '{' ~ '}' [
+            [
+                | <statement=conditional-statement>
+                | <statement=loopped-statement>
+                | <statement=while-statement>
+                | <statement> ';'
+            ]* <statement>?
+        ]
         | <statement>
-        
     }
 
     multi rule block(';') {
-        | '{' ~ '}' <statement>* %% ';'
+        | '{' ~ '}' [
+            [
+                | <statement=conditional-statement>
+                | <statement=loopped-statement>
+                | <statement=while-statement>
+                | <statement> ';'
+            ]* <statement>?
+        ]
         | <statement> ';'
-        
     }
 
     rule statement {
