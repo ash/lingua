@@ -10,6 +10,11 @@ class LinguaFunctions {
 
     # len
 
+    multi method call-function('len', %var, AST::Variable $node
+        where %var{$node.variable-name} ~~ Array | Hash) {
+        return %var{$node.variable-name}.elems;
+    }
+
     multi method call-function('len', %var, ASTNode $node) {
         return $node.value.chars;
     }
