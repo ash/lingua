@@ -3,6 +3,7 @@ use LinguaFunctions;
 
 class LinguaEvaluator {
     has %.var;
+    has %!func;
 
     method eval(ASTNode $top) {
         dd $top;
@@ -78,6 +79,10 @@ class LinguaEvaluator {
     }
 
     # Functions
+
+    multi method eval-node(AST::FunctionDefinition $node) {
+        %!func{$node.function-name} = $node;
+    }
 
     method call-function($function-name, $argument) {
         return LinguaFunctions.call-function($function-name, %!var, $argument);

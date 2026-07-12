@@ -181,6 +181,16 @@ class AST::FunctionCall is ASTNode {
     }
 }
 
+class AST::FunctionDefinition is ASTNode {
+    has Str $.function-name;
+    has Str @.parameters;
+    has ASTNode @.statements;
+}
+
+class AST::Return is ASTNode {
+    has ASTNode $.value;
+}
+
 class AST::Condition is ASTNode {
     has ASTNode $.value;
     has ASTNode @.statements;

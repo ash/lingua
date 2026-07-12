@@ -13,6 +13,20 @@ class LinguaActions {
         $/.make($top);
     }
 
+    method function-definition($/) {
+        $/.make(AST::FunctionDefinition.new(
+            function-name => ~$<function-name>,
+            parameters => ($<parameter> ?? ($<parameter>.map: ~*) !! ()),
+            statements => ($<block><statement>.map: *.made),
+        ));
+    }
+
+    method return-statement($/) {
+        $/.make(AST::Return.new(
+            value => $<value>.made,
+        ));
+    }
+
     method conditional-statement($/) {
         $/.make(AST::Condition.new(
             value => $/<value>.made,

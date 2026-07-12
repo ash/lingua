@@ -5,11 +5,22 @@ grammar Lingua is CommentableLanguage does Number {
     rule TOP {
         [
             | <one-line-comment>
+            | <statement=function-definition>
             | <statement=conditional-statement>
             | <statement=loopped-statement>
             | <statement=while-statement>
             | <statement> ';'
         ]*
+    }
+
+    rule function-definition {
+        'func' <function-name=variable-name>
+            '(' <parameter=variable-name>* %% ',' ')'
+            <block(';')>
+    }
+
+    rule return-statement {
+        'return' <value>
     }
 
     rule conditional-statement {
@@ -39,6 +50,7 @@ grammar Lingua is CommentableLanguage does Number {
 
     rule statement {
         | <statement=variable-declaration>
+        | <statement=return-statement>
         | <statement=assignment>
         | <statement=function-call>
     }
