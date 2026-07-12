@@ -3,6 +3,7 @@
 use lib '.';
 use LinguaGrammar;
 use LinguaActions;
+use LinguaOptimizer;
 use LinguaEvaluator;
 
 error('Usage: ./lingua <filename>') unless @*ARGS.elems;
@@ -18,7 +19,8 @@ my $ast = Lingua.parse($code, :actions($actions));
 
 if $ast {
     note 'OK';
-    $evaluator.eval($ast.made);
+    my $optimizer = LinguaOptimizer.new();
+    $evaluator.eval($optimizer.optimize($ast.made));
 }
 else {
     error('Error: parse failed');
