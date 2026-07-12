@@ -1,2 +1,3 @@
-my sayonara = 3;
-say sayonara + 1;
+my x;
+x = len "hello";
+say x;

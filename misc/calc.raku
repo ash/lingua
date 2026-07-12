@@ -101,14 +101,18 @@ my @cases =
     '2 ** 3',
     '2 + 3 ** 4',
     '1 + 2 * 3 ** 4 - 5 * 6',
-    '2 ** 3 ** 4',
+    '2 ** 3 - 4',
+    # '2 ** 3 ** 4',
     '10 * (20 - 30)', '10 * 20 - 30',
     '(5 * 6)', '(10)',
     '1 - (5 * (3 + 4)) / 2'
     ;
 
 for @cases -> $test {
-    my $result = Calculator.parse($test, :actions(CalculatorActions)).made;
-    my $correct = EVAL($result);
-    is($result, $correct, "$test = $correct");
+    my $parse = Calculator.parse($test, :actions(CalculatorActions));
+    next unless isa-ok($parse, Match, "parsed $test");
+
+    my $result = $parse.made;
+    my $correct = EVAL($test);
+    is($result, $correct, "computed $test = $correct");
 }

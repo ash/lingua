@@ -41,7 +41,7 @@ class LinguaFunctions {
     }
 
     multi method gist(%var, AST::Variable $value where %var{$value.variable-name} ~~ Array) {
-        return %var{$value.variable-name}.join(', ');
+        return %var{$value.variable-name}.join(', '); #'
     }
 
     multi method gist(%var, AST::ArrayItem $item where %var{$item.variable-name} ~~ Str) {
@@ -58,7 +58,7 @@ class LinguaFunctions {
         for $data.keys.sort -> $key {
             @str.push("$key: $data{$key}");
         }
-        return @str.join(', ');
+        return @str.join(', '); #'
     }
 
     multi method gist(%var, AST::HashItem $item) {
