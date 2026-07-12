@@ -1,6 +1,10 @@
 use LinguaAST;
 use LinguaFunctions;
 
+class X::LinguaReturn is Exception {
+    has $.value;
+}
+
 class LinguaEvaluator {
     has %.var;
     has %!func;
@@ -88,6 +92,10 @@ class LinguaEvaluator {
         $node.value;
     }
 
+    multi method eval-node(AST::Return $node) {
+        X::LinguaReturn.new(value => $node.value.value).throw;
+    }
+
     method call-user-function($function-name, @arguments) {
         die "Unknown function $function-name"
             unless %!func{$function-name}:exists;
@@ -102,7 +110,15 @@ class LinguaEvaluator {
         }
 
         my $result = 0;
-        self.eval-node($_) for $function.statements;
+        {
+            self.eval-node($_) for $function.statements;
+
+            CATCH {
+                when X::LinguaReturn {
+                    $result = .value;
+                }
+            }
+        }
 
         %!var = %saved-vars;
 
