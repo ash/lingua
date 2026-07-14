@@ -10,7 +10,7 @@ grammar Calculator {
     }
 
     rule factor {
-        <value>* %% <op3>
+        <value> * %% <op3>
     }
 
     token op1 {
@@ -30,12 +30,9 @@ grammar Calculator {
         | '(' <TOP> ')'
     }
 
-    rule number {
+    token number {
         \d+
     }
-    # token number {
-    #     <ws> \d+ <ws>
-    # }
 }
 
 class CalculatorActions {
